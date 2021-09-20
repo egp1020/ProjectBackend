@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from flask import Blueprint
-from controllers import category
+from src.controllers import category
 
 
 category_blueprint = Blueprint('category_blueprint', __name__)
@@ -9,6 +9,11 @@ def get():
     print("Aquí estoy")
     categories = category.get()
     return jsonify(categories)
+
+@category_blueprint.route('/category', methods=["GET"])
+def getCategory(id):
+    getCategory = category.get_by_id(id)
+    return jsonify(getCategory)
 
 
 @category_blueprint.route('/category', methods=["POST"])
@@ -37,8 +42,3 @@ def delete(id):
     result = category.delete(id)
     return jsonify(result)
 
-
-@category_blueprint.route('/category', methods=["GET"])
-def getCategory(id):
-    getCategory = category.get_by_id(id)
-    return jsonify(getCategory)

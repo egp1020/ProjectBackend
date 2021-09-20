@@ -3,8 +3,8 @@ from flask import Blueprint
 from controllers import inventory
 
 
-
 inventory_blueprint = Blueprint('inventory_blueprint', __name__)
+
 @inventory_blueprint.route('/productsInventory', methods=["GET"])
 def get():
     print("Aquí estoy")

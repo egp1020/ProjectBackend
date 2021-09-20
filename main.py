@@ -1,6 +1,6 @@
 from flask import Flask
-from database.db import create_tables
-from category import category_blueprint
+from src.db import create_tables
+from src.routes.category import category_blueprint
 
 
 app = Flask(__name__)
