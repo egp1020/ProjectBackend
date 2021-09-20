@@ -1,5 +1,5 @@
 from flask import Flask
-from db import create_tables
+from database.db import create_tables
 from category import category_blueprint
 
 

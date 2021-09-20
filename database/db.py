@@ -2,10 +2,10 @@ import sqlite3
 
 DATABASE_NAME = "tables.db"
 
-
 def get_db():
-    conn = sqlite3.connect(DATABASE_NAME)
-    return conn
+    connection = sqlite3.connect(DATABASE_NAME)
+    cursor = connection.cursor()
+    return cursor
 
 
 def create_tables():
@@ -17,7 +17,6 @@ def create_tables():
             description TEXT
         )"""
     ]
-    db = get_db()
-    cursor = db.cursor()
+    cursor = get_db()
     for table in tables:
         cursor.execute(table)
