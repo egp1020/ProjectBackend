@@ -1,9 +1,9 @@
-from src.database import get_db
+from ...src import database
 
 
 class category:
     def __init__(self):
-        self.db = get_db()
+        self.db = database.db().get_db()
         self.cursor = get_db().cursor()
 
     def get(self):
