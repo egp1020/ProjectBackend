@@ -1,36 +1,35 @@
 from src.db import get_db
 
 
-def insert(name, photo, description):
-    db = get_db()
-    cursor = db.cursor()
-    statement = "INSERT INTO category(photo, name, description) VALUES (?,?,?)"
-    cursor.execute(statement, [name, photo, description])
-    db.commit()
-    return True
+class category:
+    def __init__(self):
+        self._db = get_db()
+        self.cursor = get_db().cursor()
 
+    def create(self, name, photo, description):
+        statement = "INSERT INTO category(photo, name, description) VALUES (?,?,?)"
+        self.cursor.execute(statement, [name, photo, description])
+        self._db.commit()
+        return True
 
-def update(id, name, photo, description):
-    statement = "UPDATE category SET photo = ?, name = ?, description = ? WHERE id =?"
-    cursor.execute(statement, [name, photo, description, id])
-    db.commit()
-    return True
+    def update(self, id, name, photo, description):
+        statement = "UPDATE category SET photo = ?, name = ?, description = ? WHERE id =?"
+        self.cursor.execute(statement, [name, photo, description, id])
+        self._db.commit()
+        return True
 
+    def delete(self, id):
+        statement = "DELETE FROM category WHERE id =?"
+        self.cursor.execute(statement, [id])
+        self._db.commit()
+        return True
 
-def delete(id):
-    statement = "DELETE FROM category WHERE id =?"
-    cursor.execute(statement, [id])
-    db.commit()
-    return True
+    def get_by_id(self, id):
+        statement = "SELECT * FROM category WHERE id =?"
+        self.cursor.execute(statement, [id])
+        return self.cursor.fetchone()
 
-
-def get_by_id(id):
-    statement = "SELECT * FROM category WHERE id =?"
-    cursor.execute(statement, [id])
-    return cursor.fetchone()
-
-
-def get():
-    query = "SELECT * FROM category"
-    cursor.execute(query)
-    return cursor.fetchall()
+    def get(self):
+        query = "SELECT * FROM category"
+        self.cursor.execute(query)
+        return self.cursor.fetchall()

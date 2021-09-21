@@ -1,10 +1,10 @@
 from flask import Flask
 from src.db import create_tables
-from src.routes.category import category_blueprint
+from src.routes.category import bpcategory
 
 
 app = Flask(__name__)
-app.register_blueprint(category_blueprint)
+app.register_blueprint(bpcategory)
 
 
 HOST = 'localhost'

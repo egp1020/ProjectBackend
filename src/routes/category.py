@@ -1,22 +1,24 @@
 from flask import jsonify, request
 from flask import Blueprint
-from src.controllers import category
+from src.controllers.category import category
 
 
-category_blueprint = Blueprint('category_blueprint', __name__)
-@category_blueprint.route('/categories', methods=["GET"])
+bpcategory = Blueprint('category', __name__)
+
+
+@bpcategory.route('/categories', methods=["GET"])
 def get():
-    print("Aquí estoy")
-    categories = category.get()
+    categories = category().get()
     return jsonify(categories)
 
-@category_blueprint.route('/category', methods=["GET"])
+
+@bpcategory.route('/category', methods=["GET"])
 def getCategory(id):
     getCategory = category.get_by_id(id)
     return jsonify(getCategory)
 
 
-@category_blueprint.route('/category', methods=["POST"])
+@bpcategory.route('/category', methods=["POST"])
 def insert():
     category_datails = request.get_json()
     name = category_details["name"]
@@ -26,7 +28,7 @@ def insert():
     return jsonify(result)
 
 
-@category_blueprint.route('/category', methods=["PUT"])
+@bpcategory.route('/category', methods=["PUT"])
 def update():
     category_datails = request.get_json()
     id = category_details["id"]
@@ -37,8 +39,7 @@ def update():
     return jsonify(result)
 
 
-@category_blueprint.route('/category/<int:id>', methods=["DELETE"])
+@bpcategory.route('/category/<int:id>', methods=["DELETE"])
 def delete(id):
     result = category.delete(id)
     return jsonify(result)
-

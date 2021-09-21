@@ -3,15 +3,15 @@ from flask import Blueprint
 from controllers import inventory
 
 
-inventory_blueprint = Blueprint('inventory_blueprint', __name__)
+bpinventory = Blueprint('bpinventory', __name__)
 
-@inventory_blueprint.route('/productsInventory', methods=["GET"])
+@bpinventory.route('/productsInventory', methods=["GET"])
 def get():
     print("Aquí estoy")
     inventory = inventory.get()
     return jsonify(inventory)
 
-@inventory_blueprint.route('/productInventory', methods=["POST"])
+@bpinventory.route('/productInventory', methods=["POST"])
 def insert():
     inventory_datails = request.get_json()
     name = inventory_datails ["name"]
@@ -20,7 +20,7 @@ def insert():
     result =  inventory_datails.insert(name, photo, description)
     return jsonify(result)
     
-@inventory_blueprint.route(rule)
+@bpinventory.route(rule)
 def insert():
     inventory_datails = request.get_json()
     name = inventory_datails ["name"]

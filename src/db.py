@@ -1,20 +1,20 @@
 import sqlite3
 import os
 
-DATABASE_NAME = "src/database/tables.db"
+currentDirectory = os.getcwd()
+DATABASE_NAME = "tables.db"
+
 
 def get_db():
-    connection = sqlite3.connect(DATABASE_NAME)
+    connection = sqlite3.connect(currentDirectory+DATABASE_NAME)
     return connection
 
-def cursor():
-    cursor = get_db.cursor()
-    return cursor
 
 def create_tables():
-        sql = myfile.read()
-        cursor = get_db().cursor()
-        cursor.execute(sql)
+    sql = myfile.read()
+    cursor = get_db().cursor()
+    cursor.execute(sql)
+
 
 def create_tables():
     cursor = get_db().cursor()
@@ -47,7 +47,7 @@ def create_tables():
                 price       NUMERIC NOT NULL,
                 tax         VARCHAR NOT NULL REFERENCES tax (taxType)
             );""",
-            """CREATE TABLE IF NOT EXISTS tax (
+        """CREATE TABLE IF NOT EXISTS tax (
                 id      INT  NOT NULL UNIQUE PRIMARY KEY,
                 taxType TEXT UNIQUE NOT NULL,
                 rate    INT  NOT NULL
