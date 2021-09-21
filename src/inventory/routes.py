@@ -9,7 +9,7 @@ bpinventory = Blueprint('bpinventory', __name__)
 def get():
     print("Aquí estoy")
     inventory = inventory.get()
-    return jsonify(inventory)
+    return "jsonify(inventory)"
 
 @bpinventory.route('/productInventory', methods=["POST"])
 def insert():
@@ -20,7 +20,7 @@ def insert():
     result =  inventory_datails.insert(name, photo, description)
     return jsonify(result)
     
-@bpinventory.route(rule)
+@bpinventory.route('/inventory', methods=["POST"])
 def insert():
     inventory_datails = request.get_json()
     name = inventory_datails ["name"]

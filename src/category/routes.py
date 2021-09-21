@@ -3,11 +3,12 @@ from flask import Blueprint
 from src.controllers.category import category
 
 
-bpcategory = Blueprint('category', __name__)
+bpcategory = Blueprint('bpcategory', __name__)
 
 
 @bpcategory.route('/categories', methods=["GET"])
 def get():
+    print("hola")
     categories = category().get()
     return jsonify(categories)
 
@@ -20,11 +21,11 @@ def getCategory(id):
 
 @bpcategory.route('/category', methods=["POST"])
 def insert():
-    category_datails = request.get_json()
+    category_details = request.get_json()
     name = category_details["name"]
     photo = category_details["photo"]
     description = category_details["description"]
-    result = category_datails.insert(name, photo, description)
+    result = category_details.insert(name, photo, description)
     return jsonify(result)
 
 
@@ -39,7 +40,7 @@ def update():
     return jsonify(result)
 
 
-@bpcategory.route('/category/<int:id>', methods=["DELETE"])
+@bpcategory.route('/category', methods=["DELETE"])
 def delete(id):
     result = category.delete(id)
     return jsonify(result)
