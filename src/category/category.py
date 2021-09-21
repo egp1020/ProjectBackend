@@ -1,10 +1,20 @@
-from src.db import get_db
+from src.database import get_db
 
 
 class category:
     def __init__(self):
         self.db = get_db()
         self.cursor = get_db().cursor()
+
+    def get(self):
+        query = "SELECT * FROM category"
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
+
+    def get_by_id(self, id):
+        statement = "SELECT * FROM category WHERE id =?"
+        self.cursor.execute(statement, [id])
+        return self.cursor.fetchone()
 
     def create(self, name, photo, description):
         statement = "INSERT INTO category(photo, name, description) VALUES (?,?,?)"
@@ -23,13 +33,3 @@ class category:
         self.cursor.execute(statement, [id])
         self.db.commit()
         return True
-
-    def get_by_id(self, id):
-        statement = "SELECT * FROM category WHERE id =?"
-        self.cursor.execute(statement, [id])
-        return self.cursor.fetchone()
-
-    def get(self):
-        query = "SELECT * FROM category"
-        self.cursor.execute(query)
-        return self.cursor.fetchall()

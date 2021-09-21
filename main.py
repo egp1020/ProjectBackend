@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import render_template as render
 from src.db import create_tables
-from src.routes.category import bpcategory
+from src import create_app
 
+app = create_app()
 
-app = Flask(__name__)
-app.register_blueprint(bpcategory)
+@app.route("/")
+def index():
+    return render('index.html')
 
 
 HOST = 'localhost'
