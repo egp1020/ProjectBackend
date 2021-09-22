@@ -1,21 +1,14 @@
+DEBUG = True
+
 import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-class Config(object):
-    DEBUG = False
-    TESTING = False
-    CSRF_ENABLED = True
-    SECRET_KEY = "contraseina"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'tables.db')}"
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+DATABASE_CONNECT_OPTIONS = {}
 
-class ProductionConfig(Config):
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+THREADS_PER_PAGE = 2
 
-class DevelopmentConfig(Config):
-    ENV="development"
-    DEVELOPMENT=True
-    DEBUG = True
-
-currentDirectory = os.getcwd()
-DATABASE_NAME = "src/database/tables.db"
-SQLALCHEMY_DATABASE_URI = "sqlite://"+currentDirectory+DATABASE_NAME
+CSRF_ENABLED = True
+CSRF_SESSION_KEY = 'weak-key-for-csrf-protection'
+SECRET_KEY = 'weak-key-for-flask'

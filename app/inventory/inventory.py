@@ -16,15 +16,15 @@ class inventory:
         self.cursor.execute(statement, [id])
         return self.cursor.fetchone()
 
-    def insert(stock, date_hour):
-        statement = "INSERT INTO inventory(stock, date_hour) VALUES (?,?)"
-        self.cursor.execute(statement, [stock, date_hour])
+    def insert(description, stock, date_hour):
+        statement = "INSERT INTO inventory(description, stock, date_hour) VALUES (?,?)"
+        self.cursor.execute(statement, [description, stock, date_hour])
         self.db.commit()
         return True
 
-    def update(id, stock, date_hour):
-        statement = "UPDATE inventory SET stock = ? date_hour = ? WHERE id =?"
-        self.cursor.execute(statement, [stock, date_hour, id])
+    def update(id, description, stock, date_hour):
+        statement = "UPDATE inventory SET description = ? stock = ? date_hour = ? WHERE id =?"
+        self.cursor.execute(statement, [description, stock, date_hour, id])
         self.db.commit()
         return True
 

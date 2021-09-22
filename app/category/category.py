@@ -1,5 +1,4 @@
-from db import get_db
-
+from ..db import get_db
 
 class category:
     def __init__(self):

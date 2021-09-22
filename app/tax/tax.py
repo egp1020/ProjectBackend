@@ -16,15 +16,15 @@ class tax:
         self.cursor.execute(statement, [id])
         return self.cursor.fetchone()
 
-    def insert(taxType, description):
-        statement = "INSERT INTO tax(taxType, description) VALUES (?,?)"
-        self.cursor.execute(statement, [taxType, description])
+    def insert(taxType, rate):
+        statement = "INSERT INTO tax(taxType, rate) VALUES (?,?)"
+        self.cursor.execute(statement, [taxType, rate])
         self.db.commit()
         return True
 
-    def update(id, taxType, description):
-        statement = "UPDATE tax SET taxType = ? description = ? WHERE id =?"
-        self.cursor.execute(statement, [taxType, description, id])
+    def update(id, taxType, rate):
+        statement = "UPDATE tax SET taxType = ? rate = ? WHERE id =?"
+        self.cursor.execute(statement, [taxType, rate, id])
         self.db.commit()
         return True
 
