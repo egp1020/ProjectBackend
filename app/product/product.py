@@ -1,6 +1,3 @@
-# IMPORTAR BASE DE DATOS
-
-
 class product:
     def __init__(self):
         self.db = get_db()

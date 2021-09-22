@@ -70,5 +70,5 @@ app.register_blueprint(bpproduct)
 from .tax.routes import bptax
 app.register_blueprint(bptax)
 
-from .taxDetails.routes import bptaxDetails
-app.register_blueprint(bptaxDetails)
+from .taxDetails.routes import bptaxdetails
+app.register_blueprint(bptaxdetails)

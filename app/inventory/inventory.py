@@ -1,6 +1,3 @@
-# IMPORTAR BASE DE DATOS
-
-
 class inventory:
     def __init__(self):
         self.db = get_db()

@@ -1,5 +1,3 @@
-# IMPORTAR BASE DE DATOS
-
 class tax:
     def __init__(self):
         self.db = get_db()
