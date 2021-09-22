@@ -1,4 +1,4 @@
-# IMPORTAR BASE DE DATOS
+
 
 class category:
     def __init__(self):
