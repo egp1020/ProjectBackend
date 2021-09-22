@@ -1,5 +1,4 @@
 from flask import jsonify, request
-from . import bpcategory
 from category import category
 
 @bpcategory.route('/categories', methods=["GET"])

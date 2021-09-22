@@ -1,4 +1,4 @@
-from db import get_db
+# IMPORTAR BASE DE DATOS
 
 
 class product:
