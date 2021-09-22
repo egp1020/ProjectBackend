@@ -1,9 +1,5 @@
 from flask import jsonify, request
-from flask import Blueprint
-from src.inventory.inventory import inventory
-
-
-bpinventory = Blueprint('bpinventory', __name__)
+from inventory import bpinventory
 
 @bpinventory.route('/productsInventory', methods=["GET"])
 def get():
@@ -18,20 +14,20 @@ def getProductInventory(id):
 @bpinventory.route('/productInventory', methods=["POST"])
 def insert():
     inventoryDetail = request.get_json()
-    name = inventoryDetail["name"]
-    photo = inventoryDetail["photo"]
     description = inventoryDetail["description"]
-    result =  inventory().insert(name, photo, description)
+    stock = inventoryDetail["stock"]
+    date_hour = inventoryDetail["date_hour"]
+    result =  inventory().insert(description, stock, date_hour)
     return jsonify(result)
 
 @bpinventory.route('/inventory', methods=["POST"])
 def update():
     inventoryDetail = request.get_json()
     id = inventoryDetail["id"]
-    name = inventoryDetail ["name"]
-    photo = inventoryDetail ["photo"]
     description = inventoryDetail ["description"]
-    result =  inventory().update(id, name, photo, description)
+    stock = inventoryDetail ["stock"]
+    date_hour = inventoryDetail ["date_hour"]
+    result =  inventory().update(id, description, stock, date_hour)
     return jsonify(result)
 
 

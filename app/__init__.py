@@ -3,7 +3,7 @@ from flask import render_template as render
 from flask_sqlalchemy import SQLAlchemy
 
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 
 app.config.from_object('config.py')
 db = SQLAlchemy(app)
@@ -12,17 +12,17 @@ db = SQLAlchemy(app)
 def not_found(error):
     return render('404.html'), 404
 
-from app.category import bpcategory
+from .category import bpcategory
 app.register_blueprint(bpcategory)
 
-from app.inventory import bpinventory
+from .inventory import bpinventory
 app.register_blueprint(bpinventory)
 
-from app.product import product
+from .product import product
 app.register_blueprint(bpproduct)
 
-from app.tax import bptax
+from .tax import bptax
 app.register_blueprint(bptax)
 
-from app.taxDetails import bptaxDetails
+from .taxDetails import bptaxDetails
 app.register_blueprint(bptaxDetails)
