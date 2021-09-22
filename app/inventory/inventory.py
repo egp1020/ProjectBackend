@@ -1,4 +1,4 @@
-# IMPORTAR BASE DE DATOS
+from db import get_db
 
 
 class inventory:
