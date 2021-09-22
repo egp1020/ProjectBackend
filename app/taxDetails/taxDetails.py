@@ -16,7 +16,7 @@ class taxDetails:
         self.cursor.execute(statement, [id])
         return self.cursor.fetchone()
 
-    def insert(taxDetailsType, rate):
+    def create():
         statement = "INSERT INTO taxDetails(taxType, amountBuy, baseBuy, valueTax) VALUES (?,?)"
         self.cursor.execute(statement, [taxType, amountBuy, baseBuy, valueTax])
         self.db.commit()

@@ -1,6 +1,5 @@
 # IMPORTAR BASE DE DATOS
 
-
 class tax:
     def __init__(self):
         self.db = get_db()
@@ -16,7 +15,7 @@ class tax:
         self.cursor.execute(statement, [id])
         return self.cursor.fetchone()
 
-    def insert(taxType, rate):
+    def create(taxType, rate):
         statement = "INSERT INTO tax(taxType, rate) VALUES (?,?)"
         self.cursor.execute(statement, [taxType, rate])
         self.db.commit()

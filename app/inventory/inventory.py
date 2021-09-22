@@ -16,7 +16,7 @@ class inventory:
         self.cursor.execute(statement, [id])
         return self.cursor.fetchone()
 
-    def insert(description, stock, date_hour):
+    def create(description, stock, date_hour):
         statement = "INSERT INTO inventory(description, stock, date_hour) VALUES (?,?)"
         self.cursor.execute(statement, [description, stock, date_hour])
         self.db.commit()

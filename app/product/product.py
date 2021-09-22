@@ -16,13 +16,13 @@ class product:
         self.cursor.execute(statement, [id])
         return self.cursor.fetchone()
 
-    def insert(photo, description, category, quantity, stock, price, barcode, tax):
+    def create(photo, description, category, quantity, stock, price, barcode, tax):
         statement = "INSERT TO products(photo, description, category, quantity, stock, price, barcode, tax) VALUES(?, ?, ?, ?, ?, ?, ?)"
         self.cursor.execute(statement, [photo, description, category, quantity, stock, price, barcode, tax])
         self.db.commit()
         return True
 
-    def update(id, photo, description, category, quantity, stock, price, tax):
+    def update(id, photo, description, category, quantity, stock, price, barcode, tax):
         statement = "UPDATE products SET photo = ? description = ? category = ? quantity = ? stock = ? price = ? barcode = ? tax = ? WHERE id =?"
         self.cursor.execute(statement, [photo, description, category, quantity, stock, price, barcode, tax, id])
         self.db.commit()
