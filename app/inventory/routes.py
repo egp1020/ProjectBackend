@@ -35,5 +35,3 @@ def update(id):
 def delete(id):
     result = inventory().delete(id)
     return jsonify(result)
-
-
