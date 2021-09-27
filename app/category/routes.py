@@ -18,6 +18,7 @@ def getCategory(id):
 @bpcategory.route('/category/', methods=["POST"])
 def create():
     categoryDetail = request.get_json()
+    id = categoryDetail["id"]
     name = categoryDetail["name"]
     photo = categoryDetail["photo"]
     description = categoryDetail["description"]

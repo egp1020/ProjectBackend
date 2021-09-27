@@ -8,8 +8,8 @@ bpproduct = Blueprint('bpproduct', __name__, template_folder='templates')
 
 @bpproduct.route('/product/', methods=["GET"])
 def get():
-    product = product().get()
-    return jsonify(product)
+    products = product().get()
+    return jsonify(products)
 
 
 @bpproduct.route("/product/<id>/", methods=["GET"])

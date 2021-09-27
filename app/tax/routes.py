@@ -18,6 +18,7 @@ def create():
     taxDetail = request.get_json()
     taxType = taxDetail["taxType"]
     rate = taxDetail["rate"]
+    print("hola")
     result = tax().create(taxType, rate)
     return jsonify(result)
 
