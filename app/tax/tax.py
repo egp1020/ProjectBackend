@@ -1,3 +1,6 @@
+from app import get_db
+
+
 class tax:
     def __init__(self):
         self.db = get_db()

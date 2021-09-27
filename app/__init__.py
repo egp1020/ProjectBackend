@@ -1,4 +1,3 @@
-import os
 import sqlite3
 from flask import Flask
 from flask import render_template as render
@@ -6,12 +5,11 @@ from flask import render_template as render
 app = Flask(__name__)
 
 
-currentDirectory = os.getcwd()
 DATABASE_NAME = "tables.db"
 
 
 def get_db():
-    connection = sqlite3.connect(currentDirectory+DATABASE_NAME)
+    connection = sqlite3.connect(f"./app/database/{DATABASE_NAME}")
     return connection
 
 

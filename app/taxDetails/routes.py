@@ -9,7 +9,7 @@ def get():
     return jsonify(tax_detail)
 
 @bptaxdetails.route('/taxDetail/<id>/', methods=["GET"])
-def get(id):
+def getTaxDetail(id):
     get_taxDetails = taxDetails().get_by_id(id)
     return get_taxDetails
 

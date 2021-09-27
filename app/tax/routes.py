@@ -8,20 +8,21 @@ def get():
     taxs = tax().get()
     return jsonify(get_tax)
 
-bptax.route('/tax/<id>', methods=["GET"])
+@bptax.route('/tax/<id>', methods=["GET"])
 def getTax(id):
     get_tax = tax().get_by_id(id)
     return jsonify(get_tax)
 
-bptax.route('/tax/', methods=["POST"])
+@bptax.route('/tax/', methods=["POST"])
 def create():
     taxDetail = request.get_json()
     taxType = taxDetail["taxType"]
     rate = taxDetail["rate"]
+    print("hola")
     result = tax().create(taxType, rate)
     return jsonify(result)
 
-bptax.route('/tax/<id>/', methods=[""])
+@bptax.route('/tax/<id>/', methods=[""])
 def update(id):
     taxDetail = request.get_json()
     taxType = taxDetail["taxType"]
@@ -29,7 +30,7 @@ def update(id):
     result = tax().update(id, taxType, rate)
     return jsonify(result)
 
-bptax.route('/tax/<id>/', methods=["DELETE"])
+@bptax.route('/tax/<id>/', methods=["DELETE"])
 def delete(id):
     result = tax().delete(id)
     return jsonify(result)
