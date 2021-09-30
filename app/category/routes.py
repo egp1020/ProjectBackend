@@ -1,6 +1,7 @@
 from flask import jsonify, request
+#from app import app, db
 from flask import Blueprint
-from .category import category
+from controller import CategoryController
 
 bpcategory = Blueprint('bpcategory', __name__, template_folder='templates')
 @bpcategory.route('/category/', methods=["GET"])
