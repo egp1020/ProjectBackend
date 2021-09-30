@@ -1,36 +1,39 @@
 from flask import jsonify, request
 from flask import Blueprint
-from .tax import tax
+from app.tax.controller import TaxController
 
 bptax = Blueprint('bptax', __name__, template_folder='templates')
+controller = TaxController()
+
 @bptax.route('/tax/', methods=["GET"])
 def get():
-    taxs = tax().get()
-    return jsonify(get_tax)
+    taxs = controller.getTaxAll()
+    return jsonify(taxs)
 
 @bptax.route('/tax/<id>', methods=["GET"])
 def getTax(id):
-    get_tax = tax().get_by_id(id)
-    return jsonify(get_tax)
+    tax = controller.getTax(id)
+    return jsonify(tax)
 
 @bptax.route('/tax/', methods=["POST"])
-def create():
-    taxDetail = request.get_json()
-    taxType = taxDetail["taxType"]
-    rate = taxDetail["rate"]
-    print("hola")
-    result = tax().create(taxType, rate)
-    return jsonify(result)
+def createTax():
+    tax = {
+        'taxType': request.json["taxType"],
+        'rate': request.json["rate"]
+    }
+    taxs = controller.insertTax(tax)
+    return taxs
 
-@bptax.route('/tax/<id>/', methods=[""])
-def update(id):
-    taxDetail = request.get_json()
-    taxType = taxDetail["taxType"]
-    rate = taxDetail["rate"]
-    result = tax().update(id, taxType, rate)
-    return jsonify(result)
+@bptax.route('/tax/<id>/', methods=["PUT"])
+def updateTax(id):
+    tax = {
+        'taxType': request.json["taxType"],
+        'rate': request.json["rate"]
+    }
+    taxs = controller.updateTax(tax)
+    return taxs
 
 @bptax.route('/tax/<id>/', methods=["DELETE"])
-def delete(id):
-    result = tax().delete(id)
-    return jsonify(result)
+def deleteTax(id):
+    taxs = controller.deleteTax(id)
+    return taxs
