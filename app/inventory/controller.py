@@ -67,13 +67,13 @@ class InventoryController:
             message = "El actualización del producto no fue éxitosa."
         return message
 
-def deleteProductInventory(self, id):
-    product = Inventory.query.filter_by(id = id).first()
-    if product is not None:
-        db.session.delete(product)
-        db.session.commit()
-        message = "El producto ha sido eliminado con éxito."
-    else:
-        message = "El producto no se ha podido eliminar."
-    return message
+    def deleteProductInventory(self, id):
+        product = Inventory.query.filter_by(id = id).first()
+        if product is not None:
+            db.session.delete(product)
+            db.session.commit()
+            message = "El producto ha sido eliminado con éxito."
+        else:
+            message = "El producto no se ha podido eliminar."
+        return message
 

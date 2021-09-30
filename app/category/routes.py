@@ -19,12 +19,12 @@ def getCategory(id):
 
 @bpcategory.route('/category/', methods=["POST"])
 def createCategory():
-    newCategory = {
+    category = {
         'name': request.json["name"],
         'photo': request.json["photo"],
         'description': request.json["description"]
     }
-    categories = controller.insertCategory(newCategory)
+    categories = controller.insertCategory(category)
     return categories
 
 

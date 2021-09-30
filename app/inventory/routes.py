@@ -1,37 +1,41 @@
 from flask import jsonify, request
 from flask import Blueprint
-from .inventory import inventory
+from app.inventory.controller import InventoryController
 
 bpinventory = Blueprint('bpinventory', __name__, template_folder='templates')
+controller = InventoryController()
+
 @bpinventory.route('/productInventory/', methods=["GET"])
 def get():
-    inventory = inventory().get()
-    return jsonify(inventory)
+    products = controller.getProductInventoryAll()
+    return jsonify(products)
 
 @bpinventory.route('/productInventory/<id>/', methods=["GET"])
 def getProductInventory(id):
-    get_productInventory = inventory().get_by_id(id)
-    return jsonify(get_productInventory)
+    product = controller.getProductInventory(id)
+    return jsonify(product)
 
 @bpinventory.route('/productInventory/', methods=["POST"])
-def create():
-    inventoryDetail = request.get_json()
-    description = inventoryDetail["description"]
-    stock = inventoryDetail["stock"]
-    date_hour = inventoryDetail["date_hour"]
-    result =  inventory().create(description, stock, date_hour)
-    return jsonify(result)
+def createProductInventory():
+    product = {
+        'description': request.json["description"],
+        'stock':request.json["stock"],
+        'date_hour':request.json["date_hour"]
+    }
+    products = controller.insertProductInventory(product)
+    return products
 
-@bpinventory.route('/productInventory/<id>/', methods=["POST"])
-def update(id):
-    inventoryDetail = request.get_json()
-    description = inventoryDetail ["description"]
-    stock = inventoryDetail ["stock"]
-    date_hour = inventoryDetail ["date_hour"]
-    result =  inventory().update(id, description, stock, date_hour)
-    return jsonify(result)
+@bpinventory.route('/productInventory/<id>/', methods=["PUT"])
+def updateProductInventory(id):
+    product = {
+        'description': request.json["description"],
+        'stock':request.json["stock"],
+        'date_hour':request.json["date_hour"]
+    }
+    products = controller.updateProductInventory(product)
+    return products
 
 @bpinventory.route('/productInventory/<id>/', methods=["DELETE"])
-def delete(id):
-    result = inventory().delete(id)
-    return jsonify(result)
+def deleteProductInventory(id):
+    products = controller.deleteProductInventory(id)
+    return products
