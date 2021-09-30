@@ -1,39 +1,45 @@
 from flask import jsonify, request
 from flask import Blueprint
-from .taxDetails import taxDetails
+from app.taxDetails.controller import TaxDetailsController
 
 bptaxdetails = Blueprint('bptaxdetails', __name__, template_folder='templates')
+controller = TaxDetailsController()
+
 @bptaxdetails.route('/taxDetail/', methods=["GET"])
 def get():
-    tax_detail = taxDetails().get()
-    return jsonify(tax_detail)
+    taxsDetails = controller.getTaxDetailsAll()
+    return jsonify(taxsDetails)
 
 @bptaxdetails.route('/taxDetail/<id>/', methods=["GET"])
 def getTaxDetail(id):
-    get_taxDetails = taxDetails().get_by_id(id)
-    return get_taxDetails
+    taxDetails = controller.getTaxDetails(id)
+    return jsonify(taxDetails)
 
 @bptaxdetails.route('/taxDetail/', methods=["POST"])
-def create():
-    taxDD = request.get_json()
-    taxType = taxDD["taxType"]
-    amountBuy = taxDD["amountBuy"]
-    baseBuy = taxDD["baseBuy"]
-    valueTax = taxDD["valueTax"]
-    result = taxDetails().create(taxType, amountBuy, baseBuy, valueTax)
-    return jsonify(result)
+def createTaxDetail():
+    taxDetails = {
+        'taxType': request.json["taxType"],
+        'amountBuy': request.json["amountBuy"],
+        'baseBuy': request.json["baseBuy"],
+        'valueTax': request.json["valueTax"]
+    }
+
+    taxsDetails = controller.insertTaxDetails(taxDetails)
+    return taxsDetails
 
 @bptaxdetails.route('/taxDetail/<id>/', methods=["UPDATE"])
-def update(id):
-    taxDD = request.get_json()
-    taxType = taxDD["taxType"]
-    amountBuy = taxDD["amountBuy"]
-    baseBuy = taxDD["baseBuy"]
-    valueTax = taxDD["valueTax"]
-    result = taxDetails().update(id, taxType, amountBuy, baseBuy, valueTax)
-    return jsonify(result)
+def updateTaxDetail(id):
+    taxDetails = {
+        'taxType': request.json["taxType"],
+        'amountBuy': request.json["amountBuy"],
+        'baseBuy': request.json["baseBuy"],
+        'valueTax': request.json["valueTax"]
+    }
+
+    taxsDetails = controller.updateTax(taxDetails)
+    return taxsDetails
 
 @bptaxdetails.route('/taxDetail/<id>/', methods=["DELETE"])
-def delete(id):
-    result = taxDetails().delete(id)
-    return jsonify(result)
+def deleteTaxDetail(id):
+    taxsDetails = controller.deleteTax(id)
+    return taxsDetails

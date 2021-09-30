@@ -2,7 +2,7 @@ import base64
 import os, flask
 import sys
 from app import app, db
-from model import TaxDetails
+from app.taxDetails.model import TaxDetails
 
 class TaxDetailsController:
     def getTaxDetailsAll(self):
