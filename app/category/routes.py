@@ -1,43 +1,45 @@
 from flask import jsonify, request
-#from app import app, db
 from flask import Blueprint
-from controller import CategoryController
+from app.category.controller import CategoryController
 
 bpcategory = Blueprint('bpcategory', __name__, template_folder='templates')
+controller = CategoryController()
+
 @bpcategory.route('/category/', methods=["GET"])
 def get():
-    categories = category().get()
+    categories = controller.getCategoryAll()
     return jsonify(categories)
 
 
 @bpcategory.route('/category/<id>/', methods=["GET"])
 def getCategory(id):
-    get_category = category().get_by_id(id)
-    return jsonify(get_category)
+    category = controller.getCategory(id)
+    return jsonify(category)
 
 
 @bpcategory.route('/category/', methods=["POST"])
-def create():
-    categoryDetail = request.get_json()
-    id = categoryDetail["id"]
-    name = categoryDetail["name"]
-    photo = categoryDetail["photo"]
-    description = categoryDetail["description"]
-    result = category().create(name, photo, description)
-    return jsonify(result)
+def createCategory():
+    newCategory = {
+        'name': request.json["name"],
+        'photo': request.json["photo"],
+        'description': request.json["description"]
+    }
+    categories = controller.insertCategory(newCategory)
+    return categories
 
 
 @bpcategory.route('/category/<id>/', methods=["PUT"])
-def update(id):
-    categoryDetail = request.get_json()
-    photo = categoryDetail["photo"]
-    name = categoryDetail["name"]
-    description = categoryDetail["description"]
-    result = category().update(id, name, photo, description)
-    return jsonify(result)
+def updateCategory(id):
+    category = {
+        'photo': request.json["photo"],
+        'name': request.json["name"],
+        'description': request.json["description"]
+    }
+    categories = controller.updateCategory(category)
+    return categories
 
 
 @bpcategory.route('/category/<id>/', methods=["DELETE"])
-def delete(id):
-    result = category().delete(id)
-    return jsonify(result)
+def deleteCategory(id):
+    categories = controller.deleteCategory(id)
+    return categories

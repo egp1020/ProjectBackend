@@ -3,7 +3,8 @@ import base64
 import os, flask
 import sys
 from sqlalchemy import or_
-from model import Category
+from app import db
+from app.category.model import Category
 
 class CategoryController:
     def getCategoryAll(self):
