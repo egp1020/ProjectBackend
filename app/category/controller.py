@@ -1,5 +1,10 @@
-from model import Category
+
+import  base64
+import os, flask
+import sys
 from sqlalchemy import or_
+from app import app, db
+from model import Category
 
 class CategoryController:
     def getCategoryAll(self):
