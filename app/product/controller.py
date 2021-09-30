@@ -46,7 +46,14 @@ class ProductController:
         return products
 
     def insertProduct(self, product):
-        cccccccccccc
+        photo = product["photo"]
+        description = product["description"]
+        category = product["category"]
+        quantity = product["quantity"]
+        stock = product["stock"]
+        price = product["price"]
+        tax = product["tax"]
+        barcode = product["barcode"]
         product = Product.query.filter_by(id = id).first()
         if product is not None:
             data = Product(photo, description, category, quantity, stock, price, tax, barcode)
@@ -58,7 +65,6 @@ class ProductController:
             message = "El registro no se logro."
         return message
 
-# Agregar los otros campos
     def updateProduct(self, product):
         photo = product["photo"]
         description = product["description"]
