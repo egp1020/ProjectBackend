@@ -3,7 +3,7 @@ import os, flask
 import sys
 from sqlalchemy import or_
 from app import app, db
-from model import Inventory
+from app.inventory.model import Inventory
 
 class InventoryController:
     def getProductInventoryAll(self):
