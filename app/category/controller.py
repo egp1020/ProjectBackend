@@ -8,7 +8,7 @@ from model import Category
 
 class CategoryController:
     def getCategoryAll(self):
-        categories = category.query.all()
+        categories = Category.query.all()
         category = []
 
         for element in categories:
@@ -47,10 +47,10 @@ class CategoryController:
             db.session.add(data)
             db.session.commit()
 
-            text = "El registro se hizo con éxito"
+            message = "El registro se hizo con éxito"
         else:
-            text = "El registro no se logro."
-        return text
+            message = "El registro no se logro."
+        return message
 
     def updateCategory(self, category):
         photo = category["photo"]
@@ -63,10 +63,10 @@ class CategoryController:
             category.description = description
             db.session.add(category)
             db.session.commit()
-            text = "La categoría se actualizo correctamente"
+            message = "La categoría se actualizo correctamente"
         else:
-            text = "La actualización no se pudo realizar con éxito"
-        return text
+            message = "La actualización no se pudo realizar con éxito"
+        return message
 
 
     def deleteCategory(self, id):
@@ -74,7 +74,9 @@ class CategoryController:
         if category is not None:
             db.session.delete(category)
             db.session.commit()
-            text = "La categoría ha sido eliminada con éxito."
+            message = "La categoría ha sido eliminada con éxito."
         else:
-            text = "La categoría no se pudo eliminar."
+            message = "La categoría no se pudo eliminar."
+        
+        return message
 
