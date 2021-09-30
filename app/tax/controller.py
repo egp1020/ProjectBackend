@@ -69,6 +69,6 @@ class TaxController:
             db.session.commit()
             message = "El impuesto ha sido eliminado con éxito."
         else:
-            message = "El imporesto no se pudo eliminar."
+            message = "El impuesto no se pudo eliminar."
         
         return message
