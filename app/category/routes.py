@@ -35,7 +35,7 @@ def updateCategory(id):
         'name': request.json["name"],
         'description': request.json["description"]
     }
-    categories = controller.updateCategory(category)
+    categories = controller.updateCategory(category, id)
     return categories
 
 

@@ -1,8 +1,3 @@
-
-import base64
-import os, flask
-import sys
-from sqlalchemy import or_
 from app import db
 from app.category.model import Category
 
@@ -38,13 +33,13 @@ class CategoryController:
         return categories
 
     def insertCategory(self, category):
-        photo = category["photo"]
-        name = category["name"]
-        description = category["description"]
-        category = Category.query.filter_by(id = id).first()
         if category is not None:
-            data = Category(photo, name, description)
-            db.session.add(data)
+            photo = category["photo"]
+            name = category["name"]
+            description = category["description"]
+
+            newCategory = Category(photo, name, description)
+            db.session.add(newCategory)
             db.session.commit()
 
             message = "El registro se hizo con éxito"
@@ -52,16 +47,16 @@ class CategoryController:
             message = "El registro no se logro."
         return message
 
-    def updateCategory(self, category):
-        photo = category["photo"]
-        name = category["name"]
-        description = category["description"]
-        category = Category.query.filter_by(id=id).first()
+    def updateCategory(self, category, id):
         if category is not None:
-            category.photo = photo
-            category.name = name
-            category.description = description
-            db.session.add(category)
+            category_id = Category.query.get(id)
+            photo = category["photo"]
+            name = category["name"]
+            description = category["description"]
+
+            category_id.photo = photo
+            category_id.name = name
+            category_id.description = description
             db.session.commit()
             message = "La categoría se actualizo correctamente"
         else:
