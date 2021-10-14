@@ -8,7 +8,7 @@ class Product(db.Model):
     description = db.Column(db.String(30))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     quantity = db.Column(db.Float)
-    inventory_id = db.Column(db.Float, db.ForeignKey("inventory.id"))
+    inventory_id = db.Column(db.Float, db.ForeignKey("inventory.id"), nullable = False, unique=True)
     price = db.Column(db.Float, nullable=False)
     tax_id = db.Column(db.String(7), db.ForeignKey("tax.id"), nullable = False)
     barcode = db.Column(db.UnicodeText)

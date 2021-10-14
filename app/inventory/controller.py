@@ -1,7 +1,3 @@
-import  base64
-import os, flask
-import sys
-from sqlalchemy import or_
 from app import app, db
 from app.inventory.model import Inventory
 
@@ -10,12 +6,12 @@ class InventoryController:
         products = Inventory.query.all()
         inventory = []
 
-        for product in products:
+        for element in products:
             inventory.append({
-                'id':product.id,
-                'description':product.description,
-                'stock':product.stock,
-                'date_hour':product.date_hour
+                'id':element.id,
+                'product':element.product,
+                'stock':element.stock,
+                'date_created':element.date_created
             })
         return inventory
 
@@ -26,24 +22,24 @@ class InventoryController:
         if inventory is not None:
             products.append({
                 'id':inventory.id,
-                'photo':inventory.photo,
-                'name':inventory.name,
-                'description':inventory.description
+                'product':inventory.product,
+                'stock':inventory.stock,
+                'date_created':inventory.date_created
             })
         else:
             products.append({
-                'message':'no se encontro id.',
+                'message':'no se encontro elemento.',
             })
         return products
 
-    def insertProductInventory(self, product):
-        description = product["description"]
-        stock = product["stock"]
-        date_hour = product["date_hour"]
-        product = Inventory.query.filter_by(id = id).first()
-        if product is not None:
-            data = Inventory(description, stock, date_hour)
-            db.session.add(data)
+    def insertProductInventory(self, new_product):
+        if new_product is not None:
+            product = new_product["product"]
+            stock = new_product["stock"]
+            date_created = new_product["date_created"]
+
+            new_inventory = Inventory(product, stock, date_created)
+            db.session.add(new_inventory)
             db.session.commit()
 
             message = "El registro del producto se realizo con éxito."
@@ -51,16 +47,16 @@ class InventoryController:
             message = "El registro del producto no fue éxitoso."
         return message
 
-    def updateProductInventory(self, product):
-        description = product["description"]
-        stock = product["stock"]
-        date_hour = product["date_hour"]
-        product = Inventory.query.filter_by(id = id).first()
-        if product is not None:
-            product.description = description
-            product.stock = stock
-            product.date_hour = date_hour
-            db.session.add(product)
+    def updateProductInventory(self, old_product, id):
+        if old_product is not None:
+            product_id = Inventory.query.get(id)
+            product = old_product["product"]
+            stock = old_product["stock"]
+            date_created = old_product["date_created"]
+
+            product_id.product = product
+            product_id.stock = stock
+            product_id.date_created = date_created
             db.session.commit()
             message = "La actualización del producto se realizo con éxito."
         else:

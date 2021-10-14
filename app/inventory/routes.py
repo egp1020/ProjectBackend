@@ -18,9 +18,9 @@ def getProductInventory(id):
 @bpinventory.route('/productInventory/', methods=["POST"])
 def createProductInventory():
     product = {
-        'description': request.json["description"],
+        'product': request.json["product"],
         'stock':request.json["stock"],
-        'date_hour':request.json["date_hour"]
+        'date_created':request.json["date_created"]
     }
     products = controller.insertProductInventory(product)
     return products
@@ -28,11 +28,11 @@ def createProductInventory():
 @bpinventory.route('/productInventory/<id>/', methods=["PUT"])
 def updateProductInventory(id):
     product = {
-        'description': request.json["description"],
+        'product': request.json["product"],
         'stock':request.json["stock"],
-        'date_hour':request.json["date_hour"]
+        'date_created':request.json["date_created"]
     }
-    products = controller.updateProductInventory(product)
+    products = controller.updateProductInventory(product, id)
     return products
 
 @bpinventory.route('/productInventory/<id>/', methods=["DELETE"])

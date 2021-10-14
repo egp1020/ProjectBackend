@@ -28,7 +28,7 @@ class CategoryController:
             })
         else:
             categories.append({
-                'messages':'no se encontro id.',
+                'messages':'no se encontro elemento.',
             })
         return categories
 

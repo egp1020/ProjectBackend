@@ -6,7 +6,7 @@ class Category(db.Model):
     photo = db.Column(db.String(150), unique=True)
     name = db.Column(db.String(20), unique = True)
     description = db.Column(db.String(300))
-    products = db.relationship('Product', backref='category', lazy=True)
+    product = db.relationship('Product', backref='category', lazy=True)
 
     def __init__(self, photo, name, description):
         self.photo = photo

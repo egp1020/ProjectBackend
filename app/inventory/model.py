@@ -1,14 +1,15 @@
 from app import db
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 class Inventory(db.Model):
     __tablename__="inventory"
-    id = db.Column('id',db.Integer, primary_key=True)
-    products = db.relationship('Product', backref='inventories', lazy=True)
-    stock = db.Column('stock', db.Integer)
-    date_hour = db.Column('date_hour', db.String(30))
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.relationship('Product', backref='inventory', lazy=True, uselist=False)
+    stock = db.Column(db.Integer)
+    date_created = db.Column( db.DateTime, nullable=False)
 
-    def __init__(self, description, stock, date_hour):
-        self.description = description
+    def __init__(self, product, stock):
+        self.product = product
         self.stock = stock
-        self.date_hour = date_hour
+        self.date_created = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
