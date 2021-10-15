@@ -48,12 +48,11 @@ class CategoryController:
         return message
 
     def updateCategory(self, category, id):
+        photo = category["photo"]
+        name = category["name"]
+        description = category["description"]
+        category_id = Category.query.get(id)
         if category is not None:
-            category_id = Category.query.get(id)
-            photo = category["photo"]
-            name = category["name"]
-            description = category["description"]
-
             category_id.photo = photo
             category_id.name = name
             category_id.description = description

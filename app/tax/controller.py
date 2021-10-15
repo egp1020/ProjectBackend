@@ -1,6 +1,3 @@
-import base64
-import os, flask
-import sys
 from app import app, db
 from app.tax.model import Tax
 
@@ -34,12 +31,12 @@ class TaxController:
         return taxs
 
     def insertTax(self, tax):
-        taxType = tax["taxType"]
-        rate = tax["rate"]
-        tax = Tax.query.filter_by(id = id).first()
         if tax is not None:
-            data = Tax(taxType, rate)
-            db.session.add(data)
+            taxType = tax["taxType"]
+            rate = tax["rate"]
+            
+            newTax = Tax(taxType, rate)
+            db.session.add(newTax)
             db.session.commit()
 
             message = "El registro se hizo con éxito"
@@ -47,14 +44,13 @@ class TaxController:
             message = "El registro no se logro."
         return message
 
-    def updateTax(self, tax):
+    def updateTax(self, tax, id):
         taxType = tax["taxType"]
         rate = tax["rate"]
-        tax = Tax.query.filter_by(id = id).first()
+        tax = Tax.query.get(id)
         if tax is not None:
             tax.taxType = taxType
             tax.rate = rate
-            db.session.add(tax)
             db.session.commit()
             message = "El impuesto se actualizo correctamente"
         else:
@@ -70,5 +66,5 @@ class TaxController:
             message = "El impuesto ha sido eliminado con éxito."
         else:
             message = "El impuesto no se pudo eliminar."
-        
+
         return message

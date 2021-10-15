@@ -7,11 +7,11 @@ class Product(db.Model):
     photo = db.Column(db.Text)
     description = db.Column(db.String(30))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-    quantity = db.Column(db.Float)
-    inventory_id = db.Column(db.Float, db.ForeignKey("inventory.id"), nullable = False, unique=True)
+    quantity = db.Column(db.Integer)
+    inventory_id = db.Column(db.Integer, db.ForeignKey("inventory.id"), nullable = False, unique=True)
     price = db.Column(db.Float, nullable=False)
     tax_id = db.Column(db.String(7), db.ForeignKey("tax.id"), nullable = False)
-    barcode = db.Column(db.UnicodeText)
+    barcode = db.Column(db.Text)
 
     def __init__(self, photo, description, category, quantity, inventory, price, tax, barcode):
         self.photo = photo

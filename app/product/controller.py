@@ -1,7 +1,3 @@
-import  base64
-import os, flask
-import sys
-from sqlalchemy import or_
 from app import app, db
 from app.product.model import Product
 
@@ -15,11 +11,11 @@ class ProductController:
                 'id':element.id,
                 'photo':element.photo,
                 'description':element.description,
-                'category':element.category,
+                'category':element.category_id,
                 'quantity':element.quantity,
-                'stock':element.stock,
+                'stock':element.inventory_id,
                 'price':element.price,
-                'tax':element.tax,
+                'tax':element.tax_id,
                 'barcode':element.barcode
             })
         return product
@@ -32,11 +28,11 @@ class ProductController:
             products.append({
                 'photo':product.photo,
                 'description':product.description,
-                'category':product.category,
+                'category':product.category_id,
                 'quantity':product.quantity,
-                'stock':product.stock,
+                'stock':product.inventory_id,
                 'price':product.price,
-                'tax':product.tax,
+                'tax':product.tax_id,
                 'barcode':product.barcode
             })
         else:
@@ -44,18 +40,42 @@ class ProductController:
                 'messages':'no se encontro id.',
             })
         return products
+    
+    def getProductCategory(self, category_id):
+        products = []
+        product = Product.query.filter_by(category_id=category_id).all()
+
+        for element in product:
+            products.append({
+                'photo':element.photo,
+                'description':element.description,
+                'category':element.category_id,
+                'quantity':element.quantity,
+                'stock':element.inventory_id,
+                'price':element.price,
+                'tax':element.tax_id,
+                'barcode':element.barcode
+            })
+        return products
 
     def insertProduct(self, product):
-        photo = product["photo"]
-        description = product["description"]
-        category = product["category"]
-        quantity = product["quantity"]
-        stock = product["stock"]
-        price = product["price"]
-        tax = product["tax"]
-        barcode = product["barcode"]
-        product = Product.query.filter_by(id = id).first()
         if product is not None:
+            photo = product["photo"]
+            if not photo:
+                filename = "No upload img"
+            else:
+                filename = str(date.today()).replace('-', '') + secure_filename(photo.filename)
+                photo.save(os.getcwd()+"/img" + photo.filaname)
+
+            photo = filename
+            description = product["description"]
+            category = product["category"]
+            quantity = product["quantity"]
+            stock = product["stock"]
+            price = product["price"]
+            tax = product["tax"]
+            barcode = product["barcode"]
+
             data = Product(photo, description, category, quantity, stock, price, tax, barcode)
             db.session.add(data)
             db.session.commit()
@@ -65,26 +85,33 @@ class ProductController:
             message = "El registro no se logro."
         return message
 
-    def updateProduct(self, product):
+    def updateProduct(self, product, id):
         photo = product["photo"]
+        if not photo:
+            filename = "No upload img"
+        else:
+            filename = str(date.today()).replace('-', '') + secure_filename(photo.filename)
+            photo.save(os.getcwd()+"/img" + photo.filaname)
+
+        photo = filename
         description = product["description"]
         category = product["category"]
         quantity = product["quantity"]
-        stock = product["stock"]
+        stock = product["inventory"]
         price = product["price"]
         tax = product["tax"]
         barcode = product["barcode"]
-        product = Product.query.filter_by(id=id).first()
+
+        product = Product.query.get(id)
         if product is not None:
             product.photo = photo
             product.description = description
-            product.category = category
+            product.category_id = category
             product.quantity = quantity
-            product.stock = stock
+            product.inventory_id = stock
             product.price = price
-            product.tax = tax
+            product.tax_id = tax
             product.barcode = barcode
-            db.session.add(product)
             db.session.commit()
             message = "El producto se actualizo correctamente"
         else:

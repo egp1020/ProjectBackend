@@ -30,7 +30,7 @@ def updateTax(id):
         'taxType': request.json["taxType"],
         'rate': request.json["rate"]
     }
-    taxs = controller.updateTax(tax)
+    taxs = controller.updateTax(tax, id)
     return taxs
 
 @bptax.route('/tax/<id>/', methods=["DELETE"])
