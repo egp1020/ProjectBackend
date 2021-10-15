@@ -10,22 +10,30 @@ name_space = api.namespace('Category', description='Main APIs')
 @name_space.route('/')
 class CategoryDoc(Resource):
     def get(self):
-        return {{
-            "id":"1",
-            "photo":"14102021039455.jpg",
-            "name":"Despensa",
-            "description":"Alimentos de la despensa."
-        },
-        {
-            "id":"2",
-            "photo":"14102021039345.jpg",
-            "name":"Bebidas",
-            "description":"Alimentos de la despensa."
-        }
+        return {
+            {
+                "id":"1",
+                "photo":"string",
+                "name":"string",
+                "description":"string"
+            },
+            {
+                "id":"2",
+                "photo":"string",
+                "name":"string",
+                "description":"string"
+            }
         }
 
     def getCategory(id):
-        pass
+        return {
+            {
+                "id":"1",
+                "photo":"string",
+                "name":"string",
+                "description":"string"
+            }
+        }
 
     def createCategory():
         pass
