@@ -4,6 +4,7 @@ from app.category.model import Category
 class CategoryController:
     def getCategoryAll(self):
         categories = Category.query.all()
+        
         category = []
 
         for element in categories:

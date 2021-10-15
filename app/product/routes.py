@@ -1,6 +1,6 @@
 import os
 from datetime import date
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from flask import jsonify, request
 from flask import Blueprint
 from app.product.controller import ProductController

@@ -1,4 +1,5 @@
 import os
+from flask_cors import CORS
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,6 +9,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = bdDirectory
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 db = SQLAlchemy(app)
+CORS(app)
 
 from .category.routes import bpcategory
 app.register_blueprint(bpcategory)
