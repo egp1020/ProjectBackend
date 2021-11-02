@@ -1,4 +1,6 @@
 from app import db
+from app.inventory.model import Inventory
+from app.tax.model import Tax
 
 
 class Product(db.Model):

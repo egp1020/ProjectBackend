@@ -1,4 +1,5 @@
 from app import db
+from app.product.model import Product
 
 class Category(db.Model):
     __tablename__ = "category"
