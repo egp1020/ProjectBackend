@@ -1,8 +1,10 @@
 from flask import jsonify, request
+from flask import Blueprint
 from app.category.controller import CategoryController
 from flask_restx import Namespace, Resource, fields
 
 controller = CategoryController()
+bpcategory = Blueprint('bpcategory', __name__, url_prefix='/categories/')
 api = Namespace('categories', description='Main APIs')
 
 category_schema = api.model('Category model', {
@@ -13,6 +15,7 @@ category_schema = api.model('Category model', {
 })
 
 @api.route('/')
+@bpcategory.route('/')
 class CategoryList(Resource):
     """Shows a list of all categories and lets you POST to add new tasks"""
     @api.doc('list_categories')
@@ -37,6 +40,7 @@ class CategoryList(Resource):
         return data_category, 201
 
 @api.route("/<int:id>")
+@bpcategory.route('/<int:id>')
 @api.response(404, "Category not found")
 @api.param("id", "The category identifier")
 class CategoryL(Resource):

@@ -17,3 +17,6 @@ CORS(app)
 
 from .api_v1 import blueprint as api_v1
 app.register_blueprint(api_v1)
+
+from .category.routes import bpcategory as bpcategory
+app.register_blueprint(bpcategory)
