@@ -1,4 +1,4 @@
-from app import db
+from app import db, ma
 from app.product.model import Product
 
 class Category(db.Model):
@@ -13,3 +13,13 @@ class Category(db.Model):
         self.photo = photo
         self.name = name
         self.description = description
+
+class CategorySchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Category
+        include_fk = True
+
+    id = ma.auto_field()
+    photo = ma.auto_field()
+    name = ma.auto_field()
+    description = ma.auto_field()

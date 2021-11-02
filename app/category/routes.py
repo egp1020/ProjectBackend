@@ -1,16 +1,20 @@
 from flask import jsonify, request
 from app.category.controller import CategoryController
 from flask_restx import Namespace, Resource, fields
+from app.category.model import CategorySchema
 
 controller = CategoryController()
 api = Namespace('categories', description='Main APIs')
 
-category_schema = api.model('Category model', {
+""" category_schema = api.model('Category model', {
     'id':fields.Integer(readonly=True, description='The category unique identifier'),
     'photo':fields.String(),
     'name':fields.String(),
     'description':fields.String()
-})
+}) """
+
+category_schema = CategorySchema()
+categories_schema = CategorySchema(many=True)
 
 @api.route('/')
 class CategoryList(Resource):
@@ -21,7 +25,7 @@ class CategoryList(Resource):
         """List all categories"""
         data_category = controller.getCategoryAll()
         print(data_category)
-        return jsonify(data_category)
+        return jsonify(categories_schema.dump(data_category))
 
     @api.doc('create_category')
     @api.expect(category_schema)
@@ -37,7 +41,9 @@ class CategoryList(Resource):
         return data_category, 201
 
 @api.route("/<int:id>")
+@api.response(202, "OK")
 @api.response(404, "Category not found")
+@api.response(404, "Mapping Key Error")
 @api.param("id", "The category identifier")
 class CategoryL(Resource):
     @api.doc('get_category')
