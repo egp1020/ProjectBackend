@@ -72,6 +72,6 @@ class CategoryController:
             message = "La categoría ha sido eliminada con éxito."
         else:
             message = "La categoría no se pudo eliminar."
-        
+
         return message
 

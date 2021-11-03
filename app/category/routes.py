@@ -1,7 +1,9 @@
+from .controller import CategoryController
+from .model import CategorySchema
+
 from flask import jsonify, request
-from app.category.controller import CategoryController
 from flask_restx import Namespace, Resource, fields
-from app.category.model import CategorySchema
+
 
 controller = CategoryController()
 api = Namespace('categories', description='Main APIs')
@@ -37,8 +39,8 @@ class CategoryList(Resource):
             'photo': request.json["photo"],
             'description': request.json["description"]
         }
-        data_category = controller.insertCategory(category)
-        return data_category, 201
+        newCategory = controller.insertCategory(category)
+        return newCategory, 201
 
 @api.route("/<int:id>")
 @api.response(202, "OK")
