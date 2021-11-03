@@ -1,8 +1,13 @@
+from app import db
 from flask import request, jsonify
 from app.user.model import User
 import jwt
 
-
+class Order(db.Model):
+    __tablename__="order"
+    date
+    customer_id
+    total
 def token_required(f):
     @wraps(f)
     def decorator(*args, **kwargs):
