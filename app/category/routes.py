@@ -1,19 +1,21 @@
 from .controller import CategoryController
-from .model import CategorySchema
+from .schema import CategorySchema
 
 from flask import jsonify, request
 from flask_restx import Namespace, Resource, fields
 
-
 controller = CategoryController()
-api = Namespace('categories', description='Main APIs')
 
-""" category_schema = api.model('Category model', {
+category_ns = Namespace('category', description='Main APIs')
+categories_ns = Namespace('categories', description='scs')
+
+
+category_schema = category_ns.model('Category model', {
     'id':fields.Integer(readonly=True, description='The category unique identifier'),
-    'photo':fields.String(),
-    'name':fields.String(),
-    'description':fields.String()
-}) """
+    'photo':fields.String('Photo of the category'),
+    'name':fields.String('Name of the category'),
+    'description':fields.String('Description of the category')
+})
 
 category_schema = CategorySchema()
 categories_schema = CategorySchema(many=True)

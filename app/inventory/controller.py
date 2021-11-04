@@ -1,9 +1,9 @@
 from app import app, db
-from app.inventory.model import Inventory
+from app.inventory.model import InventoryModel
 
 class InventoryController:
     def getProductInventoryAll(self):
-        products = Inventory.query.all()
+        products = InventoryModel.query.all()
         inventory = []
 
         for element in products:
@@ -17,7 +17,7 @@ class InventoryController:
 
     def getProductInventory(self, id):
         products = []
-        inventory = Inventory.query.filter_by(id=id).first()
+        inventory = InventoryModel.query.filter_by(id=id).first()
 
         if inventory is not None:
             products.append({
@@ -38,7 +38,7 @@ class InventoryController:
             stock = new_product["stock"]
             date_created = new_product["date_created"]
 
-            new_inventory = Inventory(product, stock, date_created)
+            new_inventory = InventoryModel(product, stock, date_created)
             db.session.add(new_inventory)
             db.session.commit()
 
@@ -49,7 +49,7 @@ class InventoryController:
 
     def updateProductInventory(self, old_product, id):
         if old_product is not None:
-            product_id = Inventory.query.get(id)
+            product_id = InventoryModel.query.get(id)
             product = old_product["product"]
             stock = old_product["stock"]
             date_created = old_product["date_created"]
@@ -64,7 +64,7 @@ class InventoryController:
         return message
 
     def deleteProductInventory(self, id):
-        product = Inventory.query.filter_by(id = id).first()
+        product = InventoryModel.query.filter_by(id = id).first()
         if product is not None:
             db.session.delete(product)
             db.session.commit()

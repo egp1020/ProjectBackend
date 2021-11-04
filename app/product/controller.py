@@ -1,9 +1,9 @@
 from app import app, db
-from app.product.model import Product
+from app.product.model import ProductModel
 
 class ProductController:
     def getProductAll(self):
-        products = Product.query.all()
+        products = ProductModel.query.all()
         product = []
 
         for element in products:
@@ -22,7 +22,7 @@ class ProductController:
 
     def getProduct(self, id):
         products = []
-        product = Product.query.filter_by(id=id).first()
+        product = ProductModel.query.filter_by(id=id).first()
 
         if product is not None:
             products.append({
@@ -43,7 +43,7 @@ class ProductController:
     
     def getProductCategory(self, category_id):
         products = []
-        product = Product.query.filter_by(category_id=category_id).all()
+        product = ProductModel.query.filter_by(category_id=category_id).all()
 
         for element in product:
             products.append({
@@ -76,7 +76,7 @@ class ProductController:
             tax = product["tax"]
             barcode = product["barcode"]
 
-            data = Product(photo, description, category, quantity, stock, price, tax, barcode)
+            data = ProductModel(photo, description, category, quantity, stock, price, tax, barcode)
             db.session.add(data)
             db.session.commit()
 
@@ -102,7 +102,7 @@ class ProductController:
         tax = product["tax"]
         barcode = product["barcode"]
 
-        product = Product.query.get(id)
+        product = ProductModel.query.get(id)
         if product is not None:
             product.photo = photo
             product.description = description
@@ -120,7 +120,7 @@ class ProductController:
 
 
     def deleteProduct(self, id):
-        product = Product.query.filter_by(id=id).first()
+        product = ProductModel.query.filter_by(id=id).first()
         if product is not None:
             db.session.delete(product)
             db.session.commit()

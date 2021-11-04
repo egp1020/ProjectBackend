@@ -1,4 +1,4 @@
-from app import db, login
+""" from app import db, login
 from flask_login import UserMixin
 
 import uuid
@@ -54,4 +54,4 @@ class User(db.Model, UserMixin):
         return str(self.id)
 
     def is_admin(self):
-        return self.admin
+        return self.admin """

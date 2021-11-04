@@ -1,9 +1,9 @@
 from app import app, db
-from app.tax.model import Tax
+from app.tax.model import TaxModel
 
 class TaxController:
     def getTaxAll(self):
-        taxs = Tax.query.all()
+        taxs = TaxModel.query.all()
         tax = []
 
         for element in taxs:
@@ -16,7 +16,7 @@ class TaxController:
 
     def getTax(self, id):
         taxs = []
-        tax = Tax.query.filter_by(id=id).first()
+        tax = TaxModel.query.filter_by(id=id).first()
 
         if tax is not None:
             taxs.append({
@@ -35,7 +35,7 @@ class TaxController:
             taxType = tax["taxType"]
             rate = tax["rate"]
             
-            newTax = Tax(taxType, rate)
+            newTax = TaxModel(taxType, rate)
             db.session.add(newTax)
             db.session.commit()
 
@@ -47,7 +47,7 @@ class TaxController:
     def updateTax(self, tax, id):
         taxType = tax["taxType"]
         rate = tax["rate"]
-        tax = Tax.query.get(id)
+        tax = TaxModel.query.get(id)
         if tax is not None:
             tax.taxType = taxType
             tax.rate = rate
@@ -59,7 +59,7 @@ class TaxController:
 
 
     def deleteTax(self, id):
-        tax = Tax.query.filter_by(id=id).first()
+        tax = TaxModel.query.filter_by(id=id).first()
         if tax is not None:
             db.session.delete(tax)
             db.session.commit()

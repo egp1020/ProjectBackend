@@ -1,4 +1,4 @@
-from app import db
+""" from app import db
 from flask import request, jsonify
 from app.user.model import User
 import jwt
@@ -27,4 +27,4 @@ def token_required(f):
             return jsonify({'message': 'token is invalid'})
 
         return f(current_user, *args, **kwargs)
-    return decorator
+    return decorator """

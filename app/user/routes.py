@@ -1,4 +1,4 @@
-from app import app, db
+""" from app import app, db
 from .model import check_password
 from .controller import UserController
 
@@ -75,4 +75,4 @@ def delete_author(current_user, author_id):
     db.session.delete(author)
     db.session.commit()
 
-    return jsonify({'message': 'Author deleted'})
+    return jsonify({'message': 'Author deleted'}) """

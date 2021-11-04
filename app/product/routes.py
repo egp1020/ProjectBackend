@@ -1,12 +1,32 @@
+from app.product.controller import ProductController
+from .schema import ProductSchema
+
+# from flask import Blueprint
+from flask import jsonify, request
+from flask_restx import Namespace, Resource, fields
+
 import os
 from datetime import date
-from werkzeug.utils import secure_filename
-from flask import jsonify, request
-from flask import Blueprint
-from app.product.controller import ProductController
 
-bpproduct = Blueprint('bpproduct', __name__, template_folder='templates')
 controller = ProductController()
+#bpproduct = Blueprint('bpproduct', __name__, template_folder='templates')
+
+api = Namespace('products', description="Main APIs")
+
+product_schema = ProductSchema()
+product_list_schema = ProductSchema(many=True)
+
+product = api.model('Product', {
+    'id': fields.Integer(readonly=True, description='The product unique identifier'),
+    'photo': fields.String('Photo of the product'),
+    'description': fields.String(),
+    'category_id': fields.Integer(),
+    'quantity': fields.String(),
+    'inventory_id': fields.Integer(),
+    'price': fields.String(),
+    'tax_id': fields.Integer(),
+    'barcode': fields.String(),
+})
 
 @bpproduct.route("/product/", methods=["POST"])
 def createProduct():

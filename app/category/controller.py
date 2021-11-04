@@ -1,9 +1,9 @@
 from app import db
-from app.category.model import Category
+from app.category.model import CategoryModel
 
 class CategoryController:
     def getCategoryAll(self):
-        categories = Category.query.all()
+        categories = CategoryModel.query.all()
 
         category = []
 
@@ -18,7 +18,7 @@ class CategoryController:
 
     def getCategory(self, id):
         categories = []
-        category = Category.query.filter_by(id=id).first()
+        category = CategoryModel.query.filter_by(id=id).first()
 
         if category is not None:
             categories.append({
@@ -39,7 +39,7 @@ class CategoryController:
             name = category["name"]
             description = category["description"]
 
-            newCategory = Category(photo, name, description)
+            newCategory = CategoryModel(photo, name, description)
             db.session.add(newCategory)
             db.session.commit()
 
@@ -52,7 +52,7 @@ class CategoryController:
         photo = category["photo"]
         name = category["name"]
         description = category["description"]
-        category_id = Category.query.get(id)
+        category_id = CategoryModel.query.get(id)
         if category is not None:
             category_id.photo = photo
             category_id.name = name
@@ -65,7 +65,7 @@ class CategoryController:
 
 
     def deleteCategory(self, id):
-        category = Category.query.filter_by(id=id).first()
+        category = CategoryModel.query.filter_by(id=id).first()
         if category is not None:
             db.session.delete(category)
             db.session.commit()

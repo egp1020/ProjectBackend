@@ -1,4 +1,4 @@
-from app import db
+""" from app import db
 from app.user.model import User
 from .model import check_password
 
@@ -96,4 +96,4 @@ class UserController:
             token = jwt.encode({'public_id': user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
             return jsonify({'token' : token.decode('UTF-8')})
 
-        return make_response('could not verify',  401, {'WWW.Authentication': 'Basic realm: "login required"'})
+        return make_response('could not verify',  401, {'WWW.Authentication': 'Basic realm: "login required"'}) """

@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_login import LoginManager
+#from flask_login import LoginManager
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 
@@ -17,7 +17,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-login = LoginManager(app)
+#login = LoginManager(app)
 CORS(app)
 
 from .api_v1 import blueprint as api_v1

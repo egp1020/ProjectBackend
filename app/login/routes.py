@@ -1,4 +1,4 @@
-from flask_login import current_user, login_user
+""" from flask_login import current_user, login_user
 from app.user.model import User
 
 @app.route('login', methods=['GET', 'POST'])
@@ -14,4 +14,4 @@ def login():
             
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
-    return render_template('login.html', title='Sign in', form=form)
+    return render_template('login.html', title='Sign in', form=form) """

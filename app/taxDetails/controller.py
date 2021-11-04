@@ -2,11 +2,11 @@ import base64
 import os, flask
 import sys
 from app import app, db
-from app.taxDetails.model import TaxDetails
+from app.taxDetails.model import TaxDetailModel
 
 class TaxDetailsController:
     def getTaxDetailsAll(self):
-        taxDetails = TaxDetails.query.all()
+        taxDetails = TaxDetailModel.query.all()
         taxDetail = []
 
         for element in taxDetails:
@@ -21,7 +21,7 @@ class TaxDetailsController:
 
     def getTaxDetails(self, id):
         taxDetails = []
-        taxDetail = TaxDetails.query.filter_by(id=id).first()
+        taxDetail = TaxDetailModel.query.filter_by(id=id).first()
 
         if taxDetail is not None:
             taxDetails.append({
@@ -42,7 +42,7 @@ class TaxDetailsController:
         amountBuy = taxDetail["amountBuy"]
         baseBuy = taxDetail["baseBuy"]
         valueTax = taxDetail["valueTax"]
-        taxDetail = TaxDetails.query.filter_by(id = id).first()
+        taxDetail = TaxDetailModel.query.filter_by(id = id).first()
         if taxDetail is not None:
             data = TaxDetails(taxType, amountBuy, baseBuy, valueTax)
             db.session.add(data)
@@ -58,7 +58,7 @@ class TaxDetailsController:
         amountBuy = taxDetail["amountBuy"]
         baseBuy = taxDetail["baseBuy"]
         valueTax = taxDetail["valueTax"]
-        taxDetail = TaxDetails.query.filter_by(id = id).first()
+        taxDetail = TaxDetailModel.query.filter_by(id = id).first()
         if taxDetail is not None:
             taxDetail.taxType = taxType
             taxDetail.amountBuy = amountBuy
@@ -73,7 +73,7 @@ class TaxDetailsController:
 
 
     def deleteTax(self, id):
-        taxDetail = TaxDetails.query.filter_by(id=id).first()
+        taxDetail = TaxDetailModel.query.filter_by(id=id).first()
         if taxDetail is not None:
             db.session.delete(taxDetail)
             db.session.commit()
