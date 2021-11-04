@@ -26,33 +26,13 @@ def signup_user():
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     auth = request.authorization
-
-    if not auth or not auth.email or not auth.password:
-        return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
-
-    user = Users.query.filter_by(email=auth.email).first()
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'public_id': user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-        return jsonify({'token' : token.decode('UTF-8')})
-
-    return make_response('could not verify',  401, {'WWW.Authentication': 'Basic realm: "login required"'})
+    user = controller.loginUser(auth)
+    return user
 
 @app.route('/users', methods=['GET'])
 def get_all_users():
-
-    users = Users.query.all()
-    result = []
-
-    for user in users:
-        user_data = {
-            'public_id': user.public_id,
-            'name': user.name,
-            'password': user.password,
-            'admin': user.admin
-        }
-        result.append(user_data)
-
-    return jsonify({'users': result})
+    users = controller.getUsers()
+    return jsonify({'users': users})
 
 @app.route('/order', methods=['POST', 'GET'])
 @token_required

@@ -22,7 +22,6 @@ class User(db.Model, UserMixin):
     def __init__(self, email, password, name, last_name,
                     phone, address=None, date_of_birth=None): #admin
         self.public_id=srt(uuid.uuid4())
-        self.name=name
         self.email=email.lower()
         self.password=password
         self.name = name
@@ -40,3 +39,19 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+# Flask-Login integration
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
+    def is_admin(self):
+        return self.admin
