@@ -3,6 +3,7 @@ from app.tax.model import TaxModel
 
 
 class TaxDetailModel(db.Model):
+    """Defines a Tax model"""
     __tablename__ = "TaxDetail"
     id = db.Column(db.Integer, primary_key = True)
     tax_id = db.Column(db.Integer, db.ForeignKey("Tax.id"))
