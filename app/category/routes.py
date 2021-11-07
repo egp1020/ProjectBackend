@@ -7,7 +7,7 @@ controller = CategoryController()
 category_app = Blueprint('category_app', __name__, url_prefix='/app/')
 category_api = Namespace('category_api', description='Category operations', path='/category/')
 
-category_schema = category_ns.model('Category model', {
+category_schema = category_api.model('Category model', {
     'id':fields.Integer(readonly=True, description='The category unique identifier'),
     'photo':fields.String('Photo of the category'),
     'name':fields.String('Name of the category'),
@@ -17,7 +17,7 @@ category_schema = category_ns.model('Category model', {
 
 @category_api.route('/')
 class CategoryList(Resource):
-    """Shows a list of all categories and lets you POST to add new tasks"""
+    """Shows a list of all categories and lets you POST to add new tags"""
     @category_api.doc('list_categories')
     @category_api.marshal_list_with(category_schema)
     def get(self):
@@ -65,10 +65,10 @@ class Category(Resource):
         category_update = controller.update_category(category, id)
         return category_update
 
-    """Deletes a specific category"""
     @category_api.doc('dalete_category')
     @category_api.expect(category_schema)
     @category_api.response(204, "Category deleted")
     def delete(self, id):
+        """Deletes a specific category"""
         category = controller.delete_category(id)
         return category, 204
