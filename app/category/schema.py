@@ -1,6 +1,6 @@
 from app import ma
-from .model import CategoryModel
 from app.product.schema import ProductSchema
+from .model import CategoryModel
 
 
 class CategorySchema(ma.SQLAlchemyAutoSchema):

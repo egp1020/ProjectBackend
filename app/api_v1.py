@@ -1,7 +1,7 @@
 from flask_restx import Api
 from flask import Blueprint
 
-from .category.routes import api as category_api
+from .category.routes import category_api
 """ from .inventory.routes import api as inventory_api
 from .product.routes import api as product_api
 from .tax.routes import api as tax_api

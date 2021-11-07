@@ -1,6 +1,6 @@
 import os
-from flask_cors import CORS
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 #from flask_login import LoginManager
@@ -20,5 +20,8 @@ ma = Marshmallow(app)
 #login = LoginManager(app)
 CORS(app)
 
-""" from .api_v1 import blueprint as api_v1
-app.register_blueprint(api_v1) """
+from .api_v1 import blueprint as api_v1
+app.register_blueprint(api_v1)
+
+from .category.routes import category_app
+app.register_blueprint(category_app)

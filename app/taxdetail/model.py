@@ -1,5 +1,5 @@
 from app import db
-from app.tax.model import TaxModel
+""" from app.tax.model import TaxModel """
 
 
 class TaxDetailModel(db.Model):
@@ -11,7 +11,7 @@ class TaxDetailModel(db.Model):
     base_buy = db.Column(db.Float)
     value_tax = db.Column(db.Float)
 
-    tax = db.relationship("Tax", backref="taxsDetail")
+    tax = db.relationship("TaxModel", backref="taxsDetail")
 
     def __init__(self, tax_id, amount_buy, base_buy, value_tax):
         self.tax_id = tax_id
