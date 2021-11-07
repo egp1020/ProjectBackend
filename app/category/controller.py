@@ -5,8 +5,8 @@ from .schema import CategorySchema
 category_schema = CategorySchema()
 categories_schema = CategorySchema(many=True)
 
-STORE_NOT_FOUND = "Store not found."
-STORE_ALREADY_EXISTS = "Store '{}' already exists."
+CATEGORY_NOT_FOUND = "Category not found."
+CATEGORY_ALREADY_EXISTS = "Category '{}' already exists."
 
 class CategoryController:
     def get_category_all(self):
@@ -16,15 +16,15 @@ class CategoryController:
 
     def get_category(self, id):
         category = CategoryModel.query.filter_by(id=id).first()
-        if category is not None:
+        if category:
             return category_schema.dump(category)
-        return {'message': STORE_NOT_FOUND}, 404
+        return {'message': CATEGORY_NOT_FOUND}, 404
 
     def insert_category(self, category):
         name = category["name"]
         category_find = CategoryModel.query.filter_by(name=name).first()
         if category_find:
-            return {'message': STORE_ALREADY_EXISTS.format(name)}, 400
+            return {'message': CATEGORY_ALREADY_EXISTS.format(name)}, 400
 
         photo = category["photo"]
         description = category["description"]
@@ -44,7 +44,7 @@ class CategoryController:
             category_id.description = description
             db.session.commit()
             return category_schema.jsonify(category_id)
-        return {'message': STORE_NOT_FOUND}, 404
+        return {'message': CATEGORY_NOT_FOUND}, 404
 
     def delete_category(self, id):
         category = CategoryModel.query.filter_by(id=id).first()
@@ -52,5 +52,5 @@ class CategoryController:
             db.session.delete(category)
             db.session.commit()
             return category_schema.jsonify(category)
-        return {'message': STORE_NOT_FOUND}, 404
+        return {'message': CATEGORY_NOT_FOUND}, 404
 

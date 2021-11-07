@@ -1,5 +1,4 @@
 from app import db
-from app.product.model import ProductModel
 
 class CategoryModel(db.Model):
     """Defines a CategoryModel model"""
@@ -9,7 +8,7 @@ class CategoryModel(db.Model):
     name = db.Column(db.String(20), unique = True)
     description = db.Column(db.String(300))
 
-    products = db.relationship('ProductModel', backref='category', lazy=True)
+    products = db.relationship('Product', backref='category', lazy=True)
 
     def __init__(self, photo, name, description):
         """Initialize a CategoryModel instance"""
