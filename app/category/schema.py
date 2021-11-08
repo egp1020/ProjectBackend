@@ -9,5 +9,6 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = CategoryModel
         load_instance = True
+        include_fk = True
 
     products = ma.Nested(ProductSchema, many=True)

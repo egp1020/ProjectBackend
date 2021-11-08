@@ -1,5 +1,6 @@
 from app import ma
 from .model import InventoryModel
+from app.product.schema import ProductSchema
 
 class InventorySchema(ma.SQLAlchemyAutoSchema):
     """Takes the Inventory model and defines a automatic schema to serialization"""
