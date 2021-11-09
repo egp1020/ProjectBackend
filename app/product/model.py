@@ -1,7 +1,5 @@
 from app import db
-""" from app.inventory.model import InventoryModel
-from app.tax.model import TaxModel
-from app.category.model import CategoryModel """
+from app.inventory.model import InventoryModel
 
 
 class ProductModel(db.Model):
@@ -16,9 +14,9 @@ class ProductModel(db.Model):
     tax_id = db.Column(db.Integer, db.ForeignKey("tax.id"), nullable = False)
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
 
-    category_rs = db.relationship("CategoryModel", back_populates="product")
-    inventory_rs = db.relationship("InventoryModel", back_populates="product")
-    tax_rs = db.relationship("TaxModel", backref="product")
+    category_relationship = db.relationship("CategoryModel", backref="product")
+    inventory_relationship = db.relationship("InventoryModel", backref="product")
+    tax_relationship = db.relationship("TaxModel", backref="product")
 
     def __init__(self, photo, description, category_id, quantity, price, tax_id, barcode):
         """Initialize a ProductModel instance"""

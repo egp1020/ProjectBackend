@@ -10,5 +10,6 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
         model = CategoryModel
         load_instance = True
         include_fk = True
+        include_relationships = True
 
     products = ma.Nested(ProductSchema, many=True)

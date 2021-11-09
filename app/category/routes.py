@@ -48,7 +48,7 @@ class Category(Resource):
     @category_api.doc('get_category')
     @category_api.marshal_list_with(category_schema)
     def get(self, id):
-        """Lists of all productos for a particular category """
+        """Lists of all products for a particular category """
         category = controller.get_category(id)
         return jsonify(category)
 

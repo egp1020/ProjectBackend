@@ -6,5 +6,5 @@ class ProductSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ProductModel
         load_instance = True
-        load_only = ('category',)
         include_fk = True
+        include_relationships = True
