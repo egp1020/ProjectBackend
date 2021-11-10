@@ -18,7 +18,7 @@ tax_detail_schema = tax_detail_api.model('Tax detail', {
 class TaxDetailList(Resource):
     """Shows a list of all tax detail and lets you POST to add new tax details"""
     @tax_detail_api.doc('list_taxs_details')
-    @tax_detail_api.marshal_list_with(category_schema)
+    @tax_detail_api.marshal_list_with(tax_detail_schema)
     def get(self):
         """List all taxs details"""
         taxs_details = controller.get_tax_detail_all()
@@ -64,12 +64,12 @@ class TaxDetail(Resource):
             'value_tax': request.json["value_tax"]
         }
 
-        tax_detail_update = controller.updateTax(tax_detail)
+        tax_detail_update = controller.update_tax_detail(tax_detail, id)
         return tax_detail_update
 
     @tax_detail_api.doc('dalete_tax_detail')
     @tax_detail_api.expect(tax_detail_schema)
     @tax_detail_api.response(204, "Tax detail deleted")
-    def delete(id):
+    def delete(self, id):
         tax_detail = controller.delete_tax(id)
         return tax_detail, 204

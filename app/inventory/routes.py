@@ -1,7 +1,7 @@
 from .controller import InventoryController
 
 from flask import Blueprint, jsonify, request
-from flask_restx import Namespace, Rsource, fields
+from flask_restx import Namespace, Resource, fields
 
 controller = InventoryController()
 inventory_app = Blueprint('inventory_app', __name__, url_prefix='/app/')
@@ -16,7 +16,7 @@ inventory_schema = inventory_api.model('Inventory model', {
 
 
 @inventory_api.route('/')
-class InventoryList(Resouce):
+class InventoryList(Resource):
     """Shows a list of all products in inventory and lets you POST to add new products"""
     @inventory_api.doc('List_products_in_inventory')
     @inventory_api.marshal_list_with(inventory_schema)
@@ -43,16 +43,16 @@ class InventoryList(Resouce):
 @inventory_api.response(404, "Mapping Key Error")
 @inventory_api.param("id", "The inventory identifier")
 class Inventory(Resource):
-    @category_api.doc('get_product_inventory')
-    @category_api.marshal_list_with(inventory_schema)
+    @inventory_api.doc('get_product_inventory')
+    @inventory_api.marshal_list_with(inventory_schema)
     def get(self, id):
         """Lists product in inventory"""
         product = controller.get_inventory(id)
         return jsonify(product)
 
-    @category_api.doc('update_product_inventory')
-    @category_api.expect(inventory_schema)
-    @category_api.marshal_list_with(inventory_schema)
+    @inventory_api.doc('update_product_inventory')
+    @inventory_api.expect(inventory_schema)
+    @inventory_api.marshal_list_with(inventory_schema)
     def update(self, id):
         """Update a product in inventory given its identifier"""
         product = {
@@ -62,9 +62,9 @@ class Inventory(Resource):
         product_update = controller.update_inventory(product, id)
         return product_update
 
-    @category_api.doc('dalete_product_inventory')
-    @category_api.expect(inventory_schema)
-    @category_api.response(204, "Product deleted")
+    @inventory_api.doc('dalete_product_inventory')
+    @inventory_api.expect(inventory_schema)
+    @inventory_api.response(204, "Product deleted")
     def deleteProductInventory(self, id):
         """Deletes a specific product in inventory"""
         product = controller.delete_inventory(id)

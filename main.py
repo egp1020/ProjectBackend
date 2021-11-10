@@ -2,7 +2,7 @@ from app import app, db
 
 
 HOST = 'localhost'
-PORT = 4000
+PORT = 5000
 DEBUG = True
 
 

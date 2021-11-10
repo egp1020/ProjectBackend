@@ -21,18 +21,25 @@ ma = Marshmallow(app)
 #login = LoginManager(app)
 CORS(app)
 
-from .category.routes import category_app
+from .category.routes import category_app, category_api
 app.register_blueprint(category_app)
 
-from .product.routes import product_app
+from .product.routes import product_app, product_api
 app.register_blueprint(product_app)
 
-from .category.routes import category_api
-from .inventory.routes import inventory_api
-from .product.routes import product_api
+from .inventory.routes import inventory_app, inventory_api
+app.register_blueprint(inventory_app)
 
-api =  Api(app, version="1.0", title="Product management ", description="Manage orders", doc="/doc")
+from .tax.routes import tax_app, tax_api
+app.register_blueprint(tax_app)
+
+from .taxdetail.routes import tax_detail_app, tax_detail_api
+app.register_blueprint(tax_detail_app)
+
+api =  Api(app, version="1.0", title="Product management ", description="Manage orders", doc="/doc/")
 
 api.add_namespace(category_api)
 api.add_namespace(inventory_api)
 api.add_namespace(product_api)
+api.add_namespace(tax_api)
+api.add_namespace(tax_detail_api)
