@@ -9,8 +9,6 @@ class InventoryModel(db.Model):
     stock = db.Column(db.Integer)
     date_created = db.Column( db.DateTime, nullable=False)
 
-    product_relationship = db.relationship('ProductModel', backref='inventory', lazy=True, uselist=False)
-
     def __init__(self, product_id, stock):
         self.product_id = product_id
         self.stock = stock
