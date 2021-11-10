@@ -7,7 +7,7 @@ controller = ProductController()
 product_app = Blueprint('product_app', __name__, url_prefix='/app/')
 product_api = Namespace('product_api', description='Product operations', path='/product/')
 
-product_schema = api.model('Product', {
+product_schema = product_api.model('Product', {
     'id': fields.Integer(readonly=True, description='The product unique identifier'),
     'photo': fields.String('Photo of the product'),
     'description': fields.String('Description of the product'),
@@ -27,9 +27,9 @@ class ProductList(Resource):
         products = controller.get_product_all()
         return jsonify(products)
 
-    @category_api.doc('create_product')
-    @category_api.expect(product_schema)
-    @category_api.marshal_list_with(product_schema, code=201)
+    @product_api.doc('create_product')
+    @product_api.expect(product_schema)
+    @product_api.marshal_list_with(product_schema, code=201)
     def post(self):
         """Creates a new product"""
         product = {

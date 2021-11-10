@@ -1,6 +1,6 @@
 from app import db
 from app.inventory.model import InventoryModel
-
+from app.tax.model import TaxModel
 
 class ProductModel(db.Model):
     """Defines a Product model"""
@@ -22,10 +22,10 @@ class ProductModel(db.Model):
         """Initialize a ProductModel instance"""
         self.photo = photo
         self.description = description
-        self.category_id = category
+        self.category_id = category_id
         self.quantity = quantity
         self.price = price
-        self.tax_id = tax
+        self.tax_id = tax_id
         self.barcode = barcode
 
     def __repr__(self):
