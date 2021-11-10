@@ -24,6 +24,7 @@ class ProductList(Resource):
     @product_api.doc('list_products')
     @product_api.marshal_list_with(product_schema)
     def get():
+        """List all products"""
         products = controller.get_product_all()
         return jsonify(products)
 
@@ -54,7 +55,7 @@ class Product(Resource):
     @product_api.doc('get_product')
     @product_api.marshal_list_with(product_schema)
     def get(self, id):
-        """Lists a product by id"""
+        """List a product given its identifier"""
         product = controller.get_product(id)
         return jsonify(product)
 
@@ -77,15 +78,17 @@ class Product(Resource):
     @product_api.expect(product_schema)
     @product_api.response(204, "Product deleted")
     def delete(id):
+        """Delete a category given its identifier"""
         product = controller.delete_category(id)
         return product, 204
 
-@product_api.route("/<category_id>")
+@product_api.route("/category/<category_id>")
 @product_api.response(202, "OK")
 @product_api.response(404, "Products of the category not found")
 @product_api.response(404, "Mapping Key Error")
 @product_api.param("category_id", "The category identifier")
 class ProductCategory(Resource):
+    """List of all products for a particular category"""
     def get(category_id):
         products = controller.get_product_category(category_id)
         return jsonify(products)
