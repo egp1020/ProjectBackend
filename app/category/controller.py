@@ -1,77 +1,56 @@
 from app import db
-from app.category.model import Category
+from .model import CategoryModel
+from .schema import CategorySchema
+
+category_schema = CategorySchema()
+categories_schema = CategorySchema(many=True)
+
+CATEGORY_NOT_FOUND = "Category not found."
+CATEGORY_ALREADY_EXISTS = "Category '{}' already exists."
 
 class CategoryController:
-    def getCategoryAll(self):
-        categories = Category.query.all()
-        
-        category = []
+    def get_category_all(self):
+        categories = CategoryModel.query.all()
+        result = categories_schema.dump(categories)
+        return result, 200
 
-        for element in categories:
-            category.append({
-                'id':element.id,
-                'photo':element.photo,
-                'name':element.name,
-                'description':element.description
-            })
-        return category
+    def get_category(self, id):
+        category = CategoryModel.query.filter_by(id=id).first()
+        if category:
+            return category_schema.dump(category)
+        return {'message': CATEGORY_NOT_FOUND}, 404
 
-    def getCategory(self, id):
-        categories = []
-        category = Category.query.filter_by(id=id).first()
+    def insert_category(self, category):
+        name = category["name"]
+        category_find = CategoryModel.query.filter_by(name=name).first()
+        if category_find:
+            return {'message': CATEGORY_ALREADY_EXISTS.format(name)}, 400
 
-        if category is not None:
-            categories.append({
-                'id':category.id,
-                'photo':category.photo,
-                'name':category.name,
-                'description':category.description
-            })
-        else:
-            categories.append({
-                'messages':'no se encontro elemento.',
-            })
-        return categories
+        photo = category["photo"]
+        description = category["description"]
+        new_category = CategoryModel(photo, name, description)
+        db.session.add(new_category)
+        db.session.commit()
+        return category_schema.jsonify(new_category)
 
-    def insertCategory(self, category):
-        if category is not None:
-            photo = category["photo"]
-            name = category["name"]
-            description = category["description"]
-
-            newCategory = Category(photo, name, description)
-            db.session.add(newCategory)
-            db.session.commit()
-
-            message = "El registro se hizo con éxito"
-        else:
-            message = "El registro no se logro."
-        return message
-
-    def updateCategory(self, category, id):
+    def update_category(self, category, id):
         photo = category["photo"]
         name = category["name"]
         description = category["description"]
-        category_id = Category.query.get(id)
-        if category is not None:
+        category_id = CategoryModel.query.get(id)
+        if category_id:
             category_id.photo = photo
             category_id.name = name
             category_id.description = description
             db.session.commit()
-            message = "La categoría se actualizo correctamente"
-        else:
-            message = "La actualización no se pudo realizar con éxito"
-        return message
+            return category_schema.jsonify(category_id)
+        return {'message': CATEGORY_NOT_FOUND}, 404
 
-
-    def deleteCategory(self, id):
-        category = Category.query.filter_by(id=id).first()
-        if category is not None:
+    def delete_category(self, id):
+        category = CategoryModel.query.filter_by(id=id).first()
+        if category:
             db.session.delete(category)
             db.session.commit()
-            message = "La categoría ha sido eliminada con éxito."
-        else:
-            message = "La categoría no se pudo eliminar."
-        
-        return message
+            return category_schema.jsonify(category)
+        return {'message': CATEGORY_NOT_FOUND}, 404
 

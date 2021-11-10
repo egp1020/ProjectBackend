@@ -1,70 +1,52 @@
-from app import app, db
-from app.tax.model import Tax
+from app import db
+from .model import TaxModel
+from .schema import TaxSchema
+
+tax_schema = TaxSchema()
+taxs_schema = TaxSchema(many=True)
+
+TAX_NOT_FOUND = "Tax not found."
+TAX_ALREADY_EXISTS = "Tax '{}' already exists."
 
 class TaxController:
-    def getTaxAll(self):
-        taxs = Tax.query.all()
-        tax = []
+    def get_tax_all(self):
+        taxs = TaxModel.query.all()
+        result = tax_schema.dump(taxs)
+        return result, 200
 
-        for element in taxs:
-            tax.append({
-                'id':element.id,
-                'taxType':element.taxType,
-                'rate':element.rate
-            })
-        return tax
+    def get_tax(self, id):
+        tax = TaxModel.query.filter_by(id=id).first()
+        if tax:
+            return tax_schema.dump(tax)
+        return {'message': TAX_NOT_FOUND}, 404
 
-    def getTax(self, id):
-        taxs = []
-        tax = Tax.query.filter_by(id=id).first()
-
-        if tax is not None:
-            taxs.append({
-                'id':tax.id,
-                'taxType':tax.taxType,
-                'rate':tax.rate
-            })
-        else:
-            taxs.append({
-                'messages':'no se encontro id.',
-            })
-        return taxs
-
-    def insertTax(self, tax):
-        if tax is not None:
-            taxType = tax["taxType"]
-            rate = tax["rate"]
-            
-            newTax = Tax(taxType, rate)
-            db.session.add(newTax)
-            db.session.commit()
-
-            message = "El registro se hizo con éxito"
-        else:
-            message = "El registro no se logro."
-        return message
-
-    def updateTax(self, tax, id):
-        taxType = tax["taxType"]
+    def insert_tax(self, tax):
         rate = tax["rate"]
-        tax = Tax.query.get(id)
-        if tax is not None:
-            tax.taxType = taxType
-            tax.rate = rate
+        if rate:
+            return {'message':TAX_ALREADY_EXISTS}, 400
+
+        tax_type = tax["tax_type"]
+        new_tax = TaxModel(tax_type, rate)
+        db.session.add(new_tax)
+        db.session.commit()
+        return tax_schema.jsonify(new_tax)
+
+    def update_tax(self, tax, id):
+        tax_type = tax["tax_type"]
+        rate = tax["rate"]
+        tax_id = TaxModel.query.get(id)
+        if tax_id:
+            tax_id.tax_type = tax_type
+            tax_id.rate = rate
             db.session.commit()
-            message = "El impuesto se actualizo correctamente"
-        else:
-            message = "La actualización no se pudo realizar con éxito"
-        return message
+            return tax_schema.jsonify(tax_id)
+        return {'message': TAX_NOT_FOUND}, 404
 
 
     def deleteTax(self, id):
-        tax = Tax.query.filter_by(id=id).first()
-        if tax is not None:
+        tax = TaxModel.query.filter_by(id=id).first()
+        if tax:
             db.session.delete(tax)
             db.session.commit()
-            message = "El impuesto ha sido eliminado con éxito."
-        else:
-            message = "El impuesto no se pudo eliminar."
-
-        return message
+            return tax_schema.jsonify(tax)
+        return {'message':TAX_NOT_FOUND}, 404

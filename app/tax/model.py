@@ -1,13 +1,11 @@
 from app import db
 
-
-class Tax(db.Model):
+class TaxModel(db.Model):
     __tablename__="tax"
     id = db.Column(db.Integer, primary_key=True)
-    taxType = db.Column(db.String(7), unique=True, nullable = False)
+    tax_type = db.Column(db.String(7), unique=True, nullable = False)
     rate = db.Column(db.Float, nullable = False)
-    products = db.relationship("Product", backref='taxs')
 
-    def __init__(self, taxType, rate):
-        self.taxType = taxType
+    def __init__(self, tax_type, rate):
+        self.tax_type = tax_type
         self.rate = rate

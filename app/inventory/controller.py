@@ -1,75 +1,53 @@
-from app import app, db
-from app.inventory.model import Inventory
+from app import db
+from .model import InventoryModel
+from .schema import InventorySchema
+
+inventory_schema = InventorySchema()
+inventory_all_schema = InventorySchema(many=True)
+
+PRODUCT_NOT_FOUND = "Product not found in inventory."
+PRODUCT_ALREADY_EXISTS = "Product '{}' already exists in inventory."
 
 class InventoryController:
-    def getProductInventoryAll(self):
-        products = Inventory.query.all()
-        inventory = []
+    def get_inventory_all(self):
+        products = InventoryModel.query.all()
+        result = inventory_all_schema.dump(products)
+        return result, 200
 
-        for element in products:
-            inventory.append({
-                'id':element.id,
-                'product':element.product,
-                'stock':element.stock,
-                'date_created':element.date_created
-            })
-        return inventory
+    def get_inventory(self, id):
+        product = InventoryModel.query.filter_by(id=id).first()
+        if product:
+            return inventory_schema.dump(product)
+        return {'message': PRODUCT_NOT_FOUND}, 404
 
-    def getProductInventory(self, id):
-        products = []
-        inventory = Inventory.query.filter_by(id=id).first()
+    def insert_inventory(self, product):
+        product_id = product["product_id"]
+        inventory_find = InventoryModel.query.filter_by(product_id=product_id)
+        if inventory_find:
+            return {'message': PRODUCT_ALREADY_EXISTS}
 
-        if inventory is not None:
-            products.append({
-                'id':inventory.id,
-                'product':inventory.product,
-                'stock':inventory.stock,
-                'date_created':inventory.date_created
-            })
-        else:
-            products.append({
-                'message':'no se encontro elemento.',
-            })
-        return products
+        stock = product["stock"]
+        new_product = InventoryModel(product_id, stock)
+        db.session.add(new_product)
+        db.session.commit()
+        return inventory_schema.jsonify(new_product)
 
-    def insertProductInventory(self, new_product):
-        if new_product is not None:
-            product = new_product["product"]
-            stock = new_product["stock"]
-            date_created = new_product["date_created"]
-
-            new_inventory = Inventory(product, stock, date_created)
-            db.session.add(new_inventory)
+    def update_inventory(self, product, id):
+        product_id = product["product_id"]
+        stock = product["stock"]
+        inventory_id = InventoryModel.query.get(id)
+        if inventory_id:
+            inventory_id.product = product
+            inventory_id.stock = stock
             db.session.commit()
+            return inventory_schema.jsonify(inventory_id)
+        return {'message': PRODUCT_NOT_FOUND}, 404
 
-            message = "El registro del producto se realizo con éxito."
-        else:
-            message = "El registro del producto no fue éxitoso."
-        return message
-
-    def updateProductInventory(self, old_product, id):
-        if old_product is not None:
-            product_id = Inventory.query.get(id)
-            product = old_product["product"]
-            stock = old_product["stock"]
-            date_created = old_product["date_created"]
-
-            product_id.product = product
-            product_id.stock = stock
-            product_id.date_created = date_created
-            db.session.commit()
-            message = "La actualización del producto se realizo con éxito."
-        else:
-            message = "El actualización del producto no fue éxitosa."
-        return message
-
-    def deleteProductInventory(self, id):
-        product = Inventory.query.filter_by(id = id).first()
-        if product is not None:
+    def delete_inventory(self, id):
+        product = InventoryModel.query.filter_by(id = id).first()
+        if product:
             db.session.delete(product)
             db.session.commit()
-            message = "El producto ha sido eliminado con éxito."
-        else:
-            message = "El producto no se ha podido eliminar."
-        return message
+            return inventory_schema.jsonify(product)
+        return {'message': PRODUCT_NOT_FOUND}, 404
 

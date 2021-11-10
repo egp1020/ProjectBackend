@@ -1,13 +1,14 @@
-from app import app
-from app import db
+from app import app, db
+import os
 
 
 HOST = 'localhost'
-PORT = 4000
+PORT = 5000
 DEBUG = True
 
 
 if __name__ == '__main__':
-    db.create_all()
+    if not os.path.exists('db.sqlite'):
+        db.create_all()
     db.session.commit()
     app.run(HOST, PORT, DEBUG)
