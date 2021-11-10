@@ -1,84 +1,59 @@
-import base64
-import os, flask
-import sys
-from app import app, db
-from app.taxDetails.model import TaxDetailModel
+from app import db
+from .model import TaxDetailModel
+from .schema import TaxDetailSchema
 
-class TaxDetailsController:
-    def getTaxDetailsAll(self):
-        taxDetails = TaxDetailModel.query.all()
-        taxDetail = []
+tax_detail_schema = TaxDetailSchema()
+taxs_details_schema = TaxDetailSchema(many=True)
 
-        for element in taxDetails:
-            taxDetail.append({
-                'id':element.id,
-                'taxType':element.taxType,
-                'amountBuy':element.amountBuy,
-                'baseBuy':element.baseBuy,
-                'valueTax':element.valueTax
-            })
-        return tax
 
-    def getTaxDetails(self, id):
-        taxDetails = []
-        taxDetail = TaxDetailModel.query.filter_by(id=id).first()
+TAX_DETAIL_NOT_FOUND = "Tax not found."
+TAX_DETAIL_ALREADY_EXISTS = "Tax '{}' already exists."
 
-        if taxDetail is not None:
-            taxDetails.append({
-                'id':taxDetail.id,
-                'taxType':taxDetail.taxType,
-                'amountBuy':taxDetail.amountBuy,
-                'baseBuy':taxDetail.baseBuy,
-                'valueTax':taxDetail.valueTax
-            })
-        else:
-            taxDetails.append({
-                'messages':'no se encontro id.',
-            })
-        return taxDetails
 
-    def insertTaxDetails(self, taxDetail):
-        taxType = taxDetail["taxType"]
-        amountBuy = taxDetail["amountBuy"]
-        baseBuy = taxDetail["baseBuy"]
-        valueTax = taxDetail["valueTax"]
-        taxDetail = TaxDetailModel.query.filter_by(id = id).first()
-        if taxDetail is not None:
-            data = TaxDetails(taxType, amountBuy, baseBuy, valueTax)
-            db.session.add(data)
+class TaxDetailController:
+    def get_tax_detail_all(self):
+        taxs_details = TaxDetailModel.query.all()
+        result = taxs_details_schema.dump(taxs_details)
+        return result
+
+    def get_tax_detail(self, id):
+        tax_detail = TaxDetailModel.query.filter_by(id=id).first()
+
+        if tax_detail:
+            return tax_detail_schema.dump(tax_detail)
+        return {'message': TAX_DETAIL_NOT_FOUND}, 404
+
+    def insert_tax_detail(self, tax_detail):
+        tax_id = tax_detail["tax_id"]
+        amount_buy = tax_detail["amount_buy"]
+        base_buy = tax_detail["base_buy"]
+        value_tax = tax_detail["value_tax"]
+
+        new_tax_detail = TaxDetailModel(tax_id, amount_buy, base_buy, value_tax)
+        db.session.add(new_tax_detail)
+        db.session.commit()
+        return tax_detail.jsonify(new_tax_detail)
+
+    def update_tax_detail(self, tax_detail, id):
+        tax_type = tax_detail["tax_type"]
+        amount_buy = tax_detail["amount_buy"]
+        base_buy = tax_detail["base_buy"]
+        value_tax = tax_detail["value_tax"]
+        tax_detail_id = TaxDetailModel.query.filter_by(id = id).first()
+        if tax_detail_id:
+            tax_detail_id.tax_type = tax_type
+            tax_detail_id.amount_buy = amount_buy
+            tax_detail_id.base_buy = base_buy
+            tax_detail_id.value_tax = value_tax
             db.session.commit()
+            return tax_detail_schema.jsonify(tax_detail_id)
+        return {'message':TAX_DETAIL_NOT_FOUND}, 404
 
-            message = "El registro se hizo con éxito"
-        else:
-            message = "El registro no se logro."
-        return message
 
-    def updateTax(self, taxDetail):
-        taxType = taxDetail["taxType"]
-        amountBuy = taxDetail["amountBuy"]
-        baseBuy = taxDetail["baseBuy"]
-        valueTax = taxDetail["valueTax"]
-        taxDetail = TaxDetailModel.query.filter_by(id = id).first()
-        if taxDetail is not None:
-            taxDetail.taxType = taxType
-            taxDetail.amountBuy = amountBuy
-            taxDetail.baseBuy = baseBuy
-            taxDetail.valueTax = valueTax
-            db.session.add(taxDetail)
+    def delete_tax(self, id):
+        tax_detail = TaxDetailModel.query.filter_by(id=id).first()
+        if tax_detail:
+            db.session.delete(tax_detail)
             db.session.commit()
-            message = "El detalle de impuesto se actualizo correctamente"
-        else:
-            message = "La actualización no se pudo realizar con éxito"
-        return message
-
-
-    def deleteTax(self, id):
-        taxDetail = TaxDetailModel.query.filter_by(id=id).first()
-        if taxDetail is not None:
-            db.session.delete(taxDetail)
-            db.session.commit()
-            message = "El detalle del impuesto ha sido eliminado con éxito."
-        else:
-            message = "El detalle del impuesto no se pudo eliminar."
-        
-        return message
+            return tax_detail_schema.jsonify(tax_detail)
+        return {'message':TAX_DETAIL_NOT_FOUND}, 404
