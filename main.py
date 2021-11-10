@@ -1,4 +1,5 @@
 from app import app, db
+import os
 
 
 HOST = 'localhost'
@@ -7,6 +8,7 @@ DEBUG = True
 
 
 if __name__ == '__main__':
-    db.create_all()
+    if not os.path.exists('db.sqlite'):
+        db.create_all()
     db.session.commit()
     app.run(HOST, PORT, DEBUG)

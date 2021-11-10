@@ -55,7 +55,7 @@ class Category(Resource):
     @category_api.doc('update_category')
     @category_api.expect(category_schema)
     @category_api.marshal_list_with(category_schema)
-    def update(self, id):
+    def put(self, id):
         """Update a category given its identifier"""
         category = {
             'photo': request.json["photo"],

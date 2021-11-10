@@ -51,7 +51,7 @@ class Tax(Resource):
     @tax_api.doc('update_tax')
     @tax_api.expect(tax_schema)
     @tax_api.marshal_list_with(tax_schema)
-    def update(id):
+    def put(id):
         """Update a tax given its identifier"""
         tax = {
             'tax_type': request.json["tax_type"],

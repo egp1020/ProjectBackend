@@ -58,7 +58,7 @@ class Product(Resource):
         product = controller.get_product(id)
         return jsonify(product)
 
-    def update(self, id):
+    def put(self, id):
         """Update a category given its identifier"""
         product = {
             'photo':request.files["photo"],

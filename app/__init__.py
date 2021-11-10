@@ -17,6 +17,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 db = SQLAlchemy(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 ma = Marshmallow(app)
 #login = LoginManager(app)
 CORS(app)

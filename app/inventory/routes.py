@@ -53,7 +53,7 @@ class Inventory(Resource):
     @inventory_api.doc('update_product_inventory')
     @inventory_api.expect(inventory_schema)
     @inventory_api.marshal_list_with(inventory_schema)
-    def update(self, id):
+    def put(self, id):
         """Update a product in inventory given its identifier"""
         product = {
             'product': request.json["product"],
@@ -65,7 +65,7 @@ class Inventory(Resource):
     @inventory_api.doc('dalete_product_inventory')
     @inventory_api.expect(inventory_schema)
     @inventory_api.response(204, "Product deleted")
-    def deleteProductInventory(self, id):
+    def delete(self, id):
         """Deletes a specific product in inventory"""
         product = controller.delete_inventory(id)
         return product, 204
