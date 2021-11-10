@@ -88,7 +88,7 @@ class Product(Resource):
 @product_api.response(404, "Mapping Key Error")
 @product_api.param("category_id", "The category identifier")
 class ProductCategory(Resource):
-    """List of all products for a particular category"""
     def get(category_id):
+        """List of all products for a particular category"""
         products = controller.get_product_category(category_id)
         return jsonify(products)
