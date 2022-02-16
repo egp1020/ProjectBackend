@@ -17,34 +17,38 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
+#login = LoginManager(app)
+CORS(app)
 
 @app.before_first_request
 def create_tables():
     db.create_all()
 
-ma = Marshmallow(app)
-#login = LoginManager(app)
-CORS(app)
+""" @app.errorhandler(ValidationError)
+def handle_validation_error(error):
+    return jsonify(error.messages), 400 """
 
-from .category.routes import category_app, category_api
-app.register_blueprint(category_app)
-
-from .product.routes import product_app, product_api
-app.register_blueprint(product_app)
-
-from .inventory.routes import inventory_app, inventory_api
-app.register_blueprint(inventory_app)
-
-from .tax.routes import tax_app, tax_api
-app.register_blueprint(tax_app)
-
-from .taxdetail.routes import tax_detail_app, tax_detail_api
-app.register_blueprint(tax_detail_app)
-
+#api_bp = Blueprint('api', __name__, url_prefix='/api/v1')
 api =  Api(app, version="1.0", title="Product management ", description="Manage orders", doc="/doc/")
 
+from .category.routes import category_api
 api.add_namespace(category_api)
-api.add_namespace(inventory_api)
+
+from .product.routes import product_api
 api.add_namespace(product_api)
+
+from .inventory.routes import inventory_api
+api.add_namespace(inventory_api)
+
+from .tax.routes import tax_api
 api.add_namespace(tax_api)
+
+from .taxdetail.routes import tax_detail_api
 api.add_namespace(tax_detail_api)
+
+
+
+
+
+

@@ -23,7 +23,7 @@ class CategoryList(Resource):
     def get(self):
         """List all categories"""
         categories = controller.get_category_all()
-        return jsonify(categories)
+        return categories
 
     @category_api.doc('create_category')
     @category_api.expect(category_schema)
@@ -50,7 +50,7 @@ class Category(Resource):
     def get(self, id):
         """List a particular category given its identifier"""
         category = controller.get_category(id)
-        return jsonify(category)
+        return category
 
     @category_api.doc('update_category')
     @category_api.expect(category_schema)
